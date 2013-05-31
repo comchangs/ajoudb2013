@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model:Screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:model="http://wireframesketcher.com/1.0/model.ecore">
+  <widgets xsi:type="model:WidgetGroup" id="34" x="238" y="628" width="361" measuredWidth="360" measuredHeight="112">
+    <widgets xsi:type="model:Panel" id="35" width="360" height="112" measuredWidth="360" measuredHeight="112"/>
+    <widgets xsi:type="model:Placeholder" id="36" x="10" y="8" width="101" height="92" text="image" measuredWidth="101" measuredHeight="92"/>
+    <widgets xsi:type="model:Label" id="37" x="134" y="8" width="40" text="Title" measuredWidth="40" measuredHeight="36">
+      <font size="20px"/>
+    </widgets>
+    <widgets xsi:type="model:Text" id="38" x="134" y="44" width="199" height="44" measuredWidth="199" measuredHeight="44" dummyText="true">
+      <font/>
+    </widgets>
+  </widgets>
+  <widgets xsi:type="model:Master" id="1" x="200" y="10" measuredWidth="430" measuredHeight="844">
+    <screen xsi:type="model:WidgetGroup" href="assets/Android4/Android4.screen#Phone"/>
+  </widgets>
+  <widgets xsi:type="model:WidgetGroup" id="3" x="238" y="143" measuredWidth="358" measuredHeight="42">
+    <widgets xsi:type="model:Panel" id="4" width="358" height="42" measuredWidth="358" measuredHeight="42"/>
+    <widgets xsi:type="model:Placeholder" id="5" x="10" y="9" width="62" height="24" text="menu" measuredWidth="62" measuredHeight="24"/>
+    <widgets xsi:type="model:Placeholder" id="6" x="286" y="9" width="62" height="24" text="setting" measuredWidth="62" measuredHeight="24"/>
+  </widgets>
+  <widgets xsi:type="model:WidgetGroup" id="18" x="237" y="184" measuredWidth="360" measuredHeight="112">
+    <widgets xsi:type="model:Panel" id="9" width="360" height="112" measuredWidth="360" measuredHeight="112"/>
+    <widgets xsi:type="model:Placeholder" id="11" x="11" y="10" width="104" height="92" text="image" measuredWidth="104" measuredHeight="92"/>
+    <widgets xsi:type="model:Label" id="16" x="135" y="10" text="Title" measuredWidth="44" measuredHeight="36">
+      <font size="20px"/>
+    </widgets>
+    <widgets xsi:type="model:Text" id="17" x="135" y="45" width="200" height="44" measuredWidth="200" measuredHeight="44" dummyText="true">
+      <font/>
+    </widgets>
+  </widgets>
+  <widgets xsi:type="model:WidgetGroup" id="19" x="238" y="295" measuredWidth="360" measuredHeight="112">
+    <widgets xsi:type="model:Panel" id="20" width="360" height="112" measuredWidth="360" measuredHeight="112"/>
+    <widgets xsi:type="model:Placeholder" id="21" x="11" y="10" width="104" height="92" text="image" measuredWidth="104" measuredHeight="92"/>
+    <widgets xsi:type="model:Label" id="22" x="135" y="10" text="Title" measuredWidth="44" measuredHeight="36">
+      <font size="20px"/>
+    </widgets>
+    <widgets xsi:type="model:Text" id="23" x="135" y="45" width="200" height="44" measuredWidth="200" measuredHeight="44" dummyText="true">
+      <font/>
+    </widgets>
+  </widgets>
+  <widgets xsi:type="model:WidgetGroup" id="24" x="237" y="406" measuredWidth="360" measuredHeight="112">
+    <widgets xsi:type="model:Panel" id="25" width="360" height="112" measuredWidth="360" measuredHeight="112"/>
+    <widgets xsi:type="model:Placeholder" id="26" x="11" y="10" width="104" height="92" text="image" measuredWidth="104" measuredHeight="92"/>
+    <widgets xsi:type="model:Label" id="27" x="135" y="10" text="Title" measuredWidth="44" measuredHeight="36">
+      <font size="20px"/>
+    </widgets>
+    <widgets xsi:type="model:Text" id="28" x="135" y="45" width="200" height="44" measuredWidth="200" measuredHeight="44" dummyText="true">
+      <font/>
+    </widgets>
+  </widgets>
+  <widgets xsi:type="model:WidgetGroup" id="29" x="238" y="517" measuredWidth="360" measuredHeight="112">
+    <widgets xsi:type="model:Panel" id="30" width="360" height="112" measuredWidth="360" measuredHeight="112"/>
+    <widgets xsi:type="model:Placeholder" id="31" x="11" y="10" width="104" height="92" text="image" measuredWidth="104" measuredHeight="92"/>
+    <widgets xsi:type="model:Label" id="32" x="135" y="10" text="Title" measuredWidth="44" measuredHeight="36">
+      <font size="20px"/>
+    </widgets>
+    <widgets xsi:type="model:Text" id="33" x="135" y="45" width="200" height="44" measuredWidth="200" measuredHeight="44" dummyText="true">
+      <font/>
+    </widgets>
+  </widgets>
+  <widgets xsi:type="model:Label" id="40" x="390" y="137" text="Title" measuredWidth="66" measuredHeight="53">
+    <font size="32px"/>
+  </widgets>
+  <widgets xsi:type="model:ButtonBar" id="41" x="453" y="671" width="135" text="," measuredWidth="135" measuredHeight="36" selection="1">
+    <font size="15px"/>
+    <items link="Map.screen" x="0" y="0" width="64" height="36"/>
+    <items x="64" y="0" width="71" height="36"/>
+  </widgets>
+  <widgets xsi:type="model:Note" id="42" x="704" y="91" width="185" height="161" text="Action Bar&#xD;&#xA;- menu button&#xD;&#xA;메뉴를 보여주는 버튼 제공&#xD;&#xA;- title&#xD;&#xA;현재 보이는 리스트의 제목을 보여줌&#xD;&#xA;- setting button&#xD;&#xA;설정을 화면을 보여주는 버튼을 제공&#xD;&#xA;" measuredWidth="185" measuredHeight="161" annotation="true" textAlignment="Left">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Arrow" id="43" x="597" y="168" width="108" height="8" measuredWidth="108" measuredHeight="8" annotation="true"/>
+  <widgets xsi:type="model:Note" id="44" x="704" y="266" width="185" height="66" text="List&#xD;&#xA;- 선택한 메뉴의 정보를 목록 형태로 보여준다." measuredWidth="185" measuredHeight="66" annotation="true" textAlignment="Left">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Arrow" id="45" x="597" y="295" width="108" height="8" measuredWidth="108" measuredHeight="8" annotation="true"/>
+  <widgets xsi:type="model:Note" id="46" x="708" y="354" width="181" height="275" text="항목&#xD;&#xA;- image&#xD;&#xA;항목의 로고 및 대표사진을 보여준다.&#xD;&#xA;- Title&#xD;&#xA;항목의 제목을 보여준다.&#xD;&#xA;- 내용&#xD;&#xA;필수적인 내용이 들어간다.&#xD;&#xA;1) 아르바이트&#xD;&#xA;시간, 급여, 거리&#xD;&#xA;2) 취미&#xD;&#xA;시간, 활동, 거리&#xD;&#xA;3) 봉사활동&#xD;&#xA;시간, 활동, 거리&#xD;&#xA;4) 중고거래&#xD;&#xA;물품, 가격, 거리" measuredWidth="181" measuredHeight="275" annotation="true" textAlignment="Left">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Arrow" id="47" x="576" y="472" width="133" height="8" measuredWidth="133" measuredHeight="8" annotation="true"/>
+  <widgets xsi:type="model:Note" id="48" x="708" y="671" text="보기변경 button&#xD;&#xA;지도/목록 을 변경 할 수 있다." measuredWidth="176" measuredHeight="44" annotation="true" textAlignment="Left">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Arrow" id="49" x="587" y="688" width="118" height="8" measuredWidth="118" measuredHeight="8" annotation="true"/>
+  <hRuler/>
+  <vRuler/>
+  <font size="12px"/>
+</model:Screen>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model:Screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:model="http://wireframesketcher.com/1.0/model.ecore">
+  <widgets xsi:type="model:Master" id="7" x="200" y="10" measuredWidth="430" measuredHeight="844">
+    <screen xsi:type="model:WidgetGroup" href="assets/Android4/Android4.screen#Phone"/>
+  </widgets>
+  <widgets xsi:type="model:WidgetGroup" id="8" x="238" y="143" measuredWidth="358" measuredHeight="42">
+    <widgets xsi:type="model:Panel" id="9" width="358" height="42" measuredWidth="358" measuredHeight="42"/>
+    <widgets xsi:type="model:Placeholder" id="10" x="10" y="9" width="62" height="24" text="back" measuredWidth="62" measuredHeight="24" link="List.screen"/>
+    <widgets xsi:type="model:Placeholder" id="11" x="286" y="9" width="62" height="24" text="setting" measuredWidth="62" measuredHeight="24"/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="32" x="390" y="137" text="Title" measuredWidth="66" measuredHeight="53">
+    <font size="32px"/>
+  </widgets>
+  <widgets xsi:type="model:Placeholder" id="34" x="292" y="213" width="256" height="188" text="image" measuredWidth="256" measuredHeight="188"/>
+  <widgets xsi:type="model:Text" id="35" x="272" y="440" width="300" height="264" measuredWidth="300" measuredHeight="264" dummyText="true">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Note" id="37" x="704" y="91" width="185" height="161" text="Action Bar&#xD;&#xA;- back button&#xD;&#xA;이전 화면으로 이동하&#xD;&#xA;- title&#xD;&#xA;현재 보이는 리스트의 제목을 보여줌&#xD;&#xA;- setting button&#xD;&#xA;설정을 화면을 보여주는 버튼을 제공&#xD;&#xA;" measuredWidth="185" measuredHeight="161" annotation="true" textAlignment="Left">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Arrow" id="38" x="597" y="168" width="108" height="8" measuredWidth="108" measuredHeight="8" annotation="true"/>
+  <widgets xsi:type="model:Note" id="39" x="704" y="280" width="185" height="265" text="Contents&#xD;&#xA;- image &#xD;&#xA;기업의 로고나 활동을 대표하는 image를 띄운다.&#xD;&#xA;- 내용&#xD;&#xA;활동에 대한 필수 내용과 자세한 내용을 보여준다.&#xD;&#xA;1) 아르바이트&#xD;&#xA;시간, 급여, 거리&#xD;&#xA;2) 취미&#xD;&#xA;시간, 활동, 거리&#xD;&#xA;3) 봉사활동&#xD;&#xA;시간, 활동, 거리&#xD;&#xA;4) 중고거래&#xD;&#xA;물품, 가격, 거리" measuredWidth="185" measuredHeight="265" annotation="true" textAlignment="Left">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Arrow" id="40" x="576" y="416" width="129" height="8" measuredWidth="129" measuredHeight="8" annotation="true"/>
+  <hRuler/>
+  <vRuler/>
+  <font size="12px"/>
+</model:Screen>
