@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model:Screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:model="http://wireframesketcher.com/1.0/model.ecore">
+  <widgets xsi:type="model:WidgetGroup" id="1" x="200" y="10" measuredWidth="430" measuredHeight="844" link="List.screen">
+    <widgets xsi:type="model:WidgetGroup" id="2" x="38" y="618" width="361" measuredWidth="360" measuredHeight="112">
+      <widgets xsi:type="model:Panel" id="3" width="360" height="112" measuredWidth="360" measuredHeight="112"/>
+      <widgets xsi:type="model:Placeholder" id="4" x="10" y="8" width="101" height="92" text="image" measuredWidth="101" measuredHeight="92"/>
+      <widgets xsi:type="model:Label" id="5" x="134" y="8" width="40" text="Title" measuredWidth="40" measuredHeight="36">
+        <font size="20px"/>
+      </widgets>
+      <widgets xsi:type="model:Text" id="6" x="134" y="44" width="199" height="44" measuredWidth="199" measuredHeight="44" dummyText="true">
+        <font/>
+      </widgets>
+    </widgets>
+    <widgets xsi:type="model:Master" id="7" measuredWidth="430" measuredHeight="844">
+      <screen xsi:type="model:WidgetGroup" href="assets/Android4/Android4.screen#Phone"/>
+    </widgets>
+    <widgets xsi:type="model:WidgetGroup" id="8" x="38" y="133" measuredWidth="358" measuredHeight="42">
+      <widgets xsi:type="model:Panel" id="9" width="358" height="42" measuredWidth="358" measuredHeight="42"/>
+      <widgets xsi:type="model:Placeholder" id="10" x="10" y="9" width="62" height="24" text="menu" measuredWidth="62" measuredHeight="24"/>
+      <widgets xsi:type="model:Placeholder" id="11" x="286" y="9" width="62" height="24" text="setting" measuredWidth="62" measuredHeight="24"/>
+    </widgets>
+    <widgets xsi:type="model:WidgetGroup" id="12" x="37" y="174" measuredWidth="360" measuredHeight="112">
+      <widgets xsi:type="model:Panel" id="13" width="360" height="112" measuredWidth="360" measuredHeight="112"/>
+      <widgets xsi:type="model:Placeholder" id="14" x="11" y="10" width="104" height="92" text="image" measuredWidth="104" measuredHeight="92"/>
+      <widgets xsi:type="model:Label" id="15" x="135" y="10" text="Title" measuredWidth="44" measuredHeight="36">
+        <font size="20px"/>
+      </widgets>
+      <widgets xsi:type="model:Text" id="16" x="135" y="45" width="200" height="44" measuredWidth="200" measuredHeight="44" dummyText="true">
+        <font/>
+      </widgets>
+    </widgets>
+    <widgets xsi:type="model:WidgetGroup" id="17" x="38" y="285" measuredWidth="360" measuredHeight="112">
+      <widgets xsi:type="model:Panel" id="18" width="360" height="112" measuredWidth="360" measuredHeight="112"/>
+      <widgets xsi:type="model:Placeholder" id="19" x="11" y="10" width="104" height="92" text="image" measuredWidth="104" measuredHeight="92"/>
+      <widgets xsi:type="model:Label" id="20" x="135" y="10" text="Title" measuredWidth="44" measuredHeight="36">
+        <font size="20px"/>
+      </widgets>
+      <widgets xsi:type="model:Text" id="21" x="135" y="45" width="200" height="44" measuredWidth="200" measuredHeight="44" dummyText="true">
+        <font/>
+      </widgets>
+    </widgets>
+    <widgets xsi:type="model:WidgetGroup" id="22" x="37" y="396" measuredWidth="360" measuredHeight="112">
+      <widgets xsi:type="model:Panel" id="23" width="360" height="112" measuredWidth="360" measuredHeight="112"/>
+      <widgets xsi:type="model:Placeholder" id="24" x="11" y="10" width="104" height="92" text="image" measuredWidth="104" measuredHeight="92"/>
+      <widgets xsi:type="model:Label" id="25" x="135" y="10" text="Title" measuredWidth="44" measuredHeight="36">
+        <font size="20px"/>
+      </widgets>
+      <widgets xsi:type="model:Text" id="26" x="135" y="45" width="200" height="44" measuredWidth="200" measuredHeight="44" dummyText="true">
+        <font/>
+      </widgets>
+    </widgets>
+    <widgets xsi:type="model:WidgetGroup" id="27" x="38" y="507" measuredWidth="360" measuredHeight="112">
+      <widgets xsi:type="model:Panel" id="28" width="360" height="112" measuredWidth="360" measuredHeight="112"/>
+      <widgets xsi:type="model:Placeholder" id="29" x="11" y="10" width="104" height="92" text="image" measuredWidth="104" measuredHeight="92"/>
+      <widgets xsi:type="model:Label" id="30" x="135" y="10" text="Title" measuredWidth="44" measuredHeight="36">
+        <font size="20px"/>
+      </widgets>
+      <widgets xsi:type="model:Text" id="31" x="135" y="45" width="200" height="44" measuredWidth="200" measuredHeight="44" dummyText="true">
+        <font/>
+      </widgets>
+    </widgets>
+    <widgets xsi:type="model:Label" id="32" x="190" y="127" text="Title" measuredWidth="66" measuredHeight="53">
+      <font size="32px"/>
+    </widgets>
+    <widgets xsi:type="model:ButtonBar" id="33" x="253" y="661" width="135" text="," measuredWidth="135" measuredHeight="36" selection="1">
+      <font size="15px"/>
+      <items link="Map.screen" x="0" y="0" width="64" height="36"/>
+      <items x="64" y="0" width="71" height="36"/>
+    </widgets>
+  </widgets>
+  <widgets xsi:type="model:WidgetGroup" id="34" x="239" y="144" measuredWidth="185" measuredHeight="577">
+    <widgets xsi:type="model:Panel" id="35" width="185" height="571" measuredWidth="185" measuredHeight="571"/>
+    <widgets xsi:type="model:SearchField" id="36" x="18" y="15" width="152" text="Search" measuredWidth="152" measuredHeight="24">
+      <font/>
+    </widgets>
+    <widgets xsi:type="model:WidgetGroup" id="37" y="56" measuredWidth="185" measuredHeight="40">
+      <widgets xsi:type="model:Panel" id="38" width="185" height="40" measuredWidth="185" measuredHeight="40"/>
+      <widgets xsi:type="model:Placeholder" id="39" x="7" y="8" width="42" height="26" measuredWidth="42" measuredHeight="26"/>
+      <widgets xsi:type="model:Text" id="40" x="56" y="12" width="122" height="19" measuredWidth="122" measuredHeight="19" dummyText="true">
+        <font/>
+      </widgets>
+    </widgets>
+    <widgets xsi:type="model:Label" id="41" x="73" y="95" text="Title" measuredWidth="37" measuredHeight="31">
+      <font size="17px"/>
+    </widgets>
+    <widgets xsi:type="model:WidgetGroup" id="42" y="125" measuredWidth="185" measuredHeight="40">
+      <widgets xsi:type="model:Panel" id="43" width="185" height="40" measuredWidth="185" measuredHeight="40"/>
+      <widgets xsi:type="model:Placeholder" id="44" x="7" y="8" width="42" height="26" measuredWidth="42" measuredHeight="26"/>
+      <widgets xsi:type="model:Text" id="45" x="56" y="12" width="122" height="19" measuredWidth="122" measuredHeight="19" dummyText="true">
+        <font/>
+      </widgets>
+    </widgets>
+    <widgets xsi:type="model:WidgetGroup" id="46" y="164" measuredWidth="185" measuredHeight="40">
+      <widgets xsi:type="model:Panel" id="47" width="185" height="40" measuredWidth="185" measuredHeight="40"/>
+      <widgets xsi:type="model:Placeholder" id="48" x="7" y="8" width="42" height="26" measuredWidth="42" measuredHeight="26"/>
+      <widgets xsi:type="model:Text" id="49" x="56" y="12" width="122" height="19" measuredWidth="122" measuredHeight="19" dummyText="true">
+        <font/>
+      </widgets>
+    </widgets>
+    <widgets xsi:type="model:WidgetGroup" id="50" y="203" measuredWidth="185" measuredHeight="40">
+      <widgets xsi:type="model:Panel" id="51" width="185" height="40" measuredWidth="185" measuredHeight="40"/>
+      <widgets xsi:type="model:Placeholder" id="52" x="7" y="8" width="42" height="26" measuredWidth="42" measuredHeight="26"/>
+      <widgets xsi:type="model:Text" id="53" x="56" y="12" width="122" height="19" measuredWidth="122" measuredHeight="19" dummyText="true">
+        <font/>
+      </widgets>
+    </widgets>
+    <widgets xsi:type="model:WidgetGroup" id="54" y="242" measuredWidth="185" measuredHeight="40">
+      <widgets xsi:type="model:Panel" id="55" width="185" height="40" measuredWidth="185" measuredHeight="40"/>
+      <widgets xsi:type="model:Placeholder" id="56" x="7" y="8" width="42" height="26" measuredWidth="42" measuredHeight="26"/>
+      <widgets xsi:type="model:Text" id="57" x="56" y="12" width="122" height="19" measuredWidth="122" measuredHeight="19" dummyText="true">
+        <font/>
+      </widgets>
+    </widgets>
+    <widgets xsi:type="model:Label" id="58" x="73" y="281" text="Title" measuredWidth="37" measuredHeight="31">
+      <font size="17px"/>
+    </widgets>
+    <widgets xsi:type="model:WidgetGroup" id="59" y="311" measuredWidth="185" measuredHeight="40">
+      <widgets xsi:type="model:Panel" id="60" width="185" height="40" measuredWidth="185" measuredHeight="40"/>
+      <widgets xsi:type="model:Placeholder" id="61" x="7" y="8" width="42" height="26" measuredWidth="42" measuredHeight="26"/>
+      <widgets xsi:type="model:Text" id="62" x="56" y="12" width="122" height="19" measuredWidth="122" measuredHeight="19" dummyText="true">
+        <font/>
+      </widgets>
+    </widgets>
+    <widgets xsi:type="model:WidgetGroup" id="63" y="350" measuredWidth="185" measuredHeight="40">
+      <widgets xsi:type="model:Panel" id="64" width="185" height="40" measuredWidth="185" measuredHeight="40"/>
+      <widgets xsi:type="model:Placeholder" id="65" x="7" y="8" width="42" height="26" measuredWidth="42" measuredHeight="26"/>
+      <widgets xsi:type="model:Text" id="66" x="56" y="12" width="122" height="19" measuredWidth="122" measuredHeight="19" dummyText="true">
+        <font/>
+      </widgets>
+    </widgets>
+    <widgets xsi:type="model:WidgetGroup" id="67" y="389" measuredWidth="185" measuredHeight="40">
+      <widgets xsi:type="model:Panel" id="68" width="185" height="40" measuredWidth="185" measuredHeight="40"/>
+      <widgets xsi:type="model:Placeholder" id="69" x="7" y="8" width="42" height="26" measuredWidth="42" measuredHeight="26"/>
+      <widgets xsi:type="model:Text" id="70" x="56" y="12" width="122" height="19" measuredWidth="122" measuredHeight="19" dummyText="true">
+        <font/>
+      </widgets>
+    </widgets>
+    <widgets xsi:type="model:Label" id="71" x="73" y="428" text="Title" measuredWidth="37" measuredHeight="31">
+      <font size="17px"/>
+    </widgets>
+    <widgets xsi:type="model:WidgetGroup" id="72" y="459" measuredWidth="185" measuredHeight="40">
+      <widgets xsi:type="model:Panel" id="73" width="185" height="40" measuredWidth="185" measuredHeight="40"/>
+      <widgets xsi:type="model:Placeholder" id="74" x="7" y="8" width="42" height="26" measuredWidth="42" measuredHeight="26"/>
+      <widgets xsi:type="model:Text" id="75" x="56" y="12" width="122" height="19" measuredWidth="122" measuredHeight="19" dummyText="true">
+        <font/>
+      </widgets>
+    </widgets>
+    <widgets xsi:type="model:WidgetGroup" id="76" y="498" measuredWidth="185" measuredHeight="40">
+      <widgets xsi:type="model:Panel" id="77" width="185" height="40" measuredWidth="185" measuredHeight="40"/>
+      <widgets xsi:type="model:Placeholder" id="78" x="7" y="8" width="42" height="26" measuredWidth="42" measuredHeight="26"/>
+      <widgets xsi:type="model:Text" id="79" x="56" y="12" width="122" height="19" measuredWidth="122" measuredHeight="19" dummyText="true">
+        <font/>
+      </widgets>
+    </widgets>
+    <widgets xsi:type="model:WidgetGroup" id="80" y="537" measuredWidth="185" measuredHeight="40">
+      <widgets xsi:type="model:Panel" id="81" width="185" height="40" measuredWidth="185" measuredHeight="40"/>
+      <widgets xsi:type="model:Placeholder" id="82" x="7" y="8" width="42" height="26" measuredWidth="42" measuredHeight="26"/>
+      <widgets xsi:type="model:Text" id="83" x="56" y="12" width="122" height="19" measuredWidth="122" measuredHeight="19" dummyText="true">
+        <font/>
+      </widgets>
+    </widgets>
+  </widgets>
+  <widgets xsi:type="model:Note" id="84" x="688" y="135" width="225" height="73" text="Search bar&#xD;&#xA;- menu에서 자신의 원하는 것을 찾기 위해서 Search를 제공함&#xD;&#xA;" measuredWidth="225" measuredHeight="73" annotation="true" textAlignment="Left">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Arrow" id="85" x="392" y="168" width="297" height="8" measuredWidth="297" measuredHeight="8" annotation="true"/>
+  <widgets xsi:type="model:Note" id="86" x="688" y="255" width="225" height="153" text="menu&#xD;&#xA;- 목록 아래 각 menu contents가 존재함&#xD;&#xA;- contents를 눌러 contents내용으로 들어 갈 수 있다.&#xD;&#xA;- contents는 작은 icon과 제목으로 구성된다.&#xD;&#xA;- list로 구성된다." measuredWidth="225" measuredHeight="153" annotation="true" textAlignment="Left">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Arrow" id="87" x="423" y="328" width="266" height="8" measuredWidth="266" measuredHeight="8" annotation="true"/>
+  <widgets xsi:type="model:Note" id="88" x="688" y="459" width="225" height="47" text="menu 외의 화면을 클릭할 경우 menu 에서 나오게 됨" measuredWidth="225" measuredHeight="47" annotation="true" textAlignment="Left">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Arrow" id="89" x="564" y="479" width="125" height="8" measuredWidth="125" measuredHeight="8" annotation="true"/>
+  <hRuler/>
+  <vRuler/>
+  <font size="12px"/>
+</model:Screen>
