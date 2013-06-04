@@ -43,7 +43,7 @@ if(isset($_GET['location_longitude'])) {
 }
 
 $query = "select location_id, location_name, member_id, location_latitude, location_longitude, Round(6371 * ASIN(SQRT(POWER(SIN(RADIANS($location_latitude – ABS(latitude))), 2) + 
-COS(RADIANS(${lat})) * COS(RADIANS(ABS(latitude))) * POWER(SIN(RADIANS($location_longitude – longitude)), 2))), 1 ) 
+COS(RADIANS($location_latitude)) * COS(RADIANS(ABS(latitude))) * POWER(SIN(RADIANS($location_longitude – longitude)), 2))), 1 ) 
 AS distance from location where location_category = '$location_category' order by distance DESC LIMIT $first , $limit"; //퀴리(SQL)문 작성
 $result_contents = mysqli_query($db, $query); //쿼리 실행
 
