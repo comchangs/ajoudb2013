@@ -1,6 +1,6 @@
 <?php
 	/**
-	 * Board API
+	 * Register API
 	 * 
 	 * @author Jeong, Munchang
 	 * @since Create: 2013. 06. 01 / Update: 2013. 06. 05
@@ -18,7 +18,7 @@
 	$board_id = JMC_GetInput("board_id", METHOD);
 	
 	// Check variable
-	if($session && $id) {
+	if($session && $member_username) {
 		try {
 			// Select DB table for session ID
 			mssql_select_db(DB_NAME, $conn);
@@ -68,29 +68,8 @@
 						}
 						break;
 					}
-					case "view": {
-						// Check variable
-						if($view_id) {
-							// Select DB table for evnent data
-							mssql_select_db(DB_NAME, $conn);
-							$query = "select * from document where document_id = '$document_id'";
-							$dbraw = mssql_query($query, $conn);
-							$result = mssql_fetch_array($dbraw);
-							$data['document_id'] = $result3['qna_id'];
-							$data['document_regdate'] = $result3['regDate'];
-							$data['document_moddate'] = $result3['answerDate'];
-							$data['document_title'] = $result3['document_title'];
-							$data['document_contents'] = $result3['document_contents'];
-							$data['member_id'] = $result3['member_id'];
-							$data['process'] = true;
-							$data['message'] = "Select document";
-						} else {
-							$data['process'] = false;
-							$data['message'] = "Empty parameter";
-						}
-						break;
-					}
-					case "write": {
+
+					case "apply": {
 						if($subject && $contents) {
 							// Select DB table for event data
 							mssql_select_db(DB_NAME, $conn);
@@ -106,6 +85,21 @@
 					}
 					
 					case "update": {
+						if($subject && $contents) {
+							// Select DB table for event data
+							mssql_select_db(DB_NAME, $conn);
+							$query = "UPDATE document SET document_moddate = '$today', document_title = '$subject', document_contents = '$contents'";
+							$dbraw = mssql_query($query, $conn);
+							$data['process'] = true;
+							$data['message'] = "Update document";
+						} else {
+							$data['process'] = false;
+							$data['message'] = "Empty parameter";
+						}
+						break;
+					}
+					
+					case "cancel": {
 						if($subject && $contents) {
 							// Select DB table for event data
 							mssql_select_db(DB_NAME, $conn);
