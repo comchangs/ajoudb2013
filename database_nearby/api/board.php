@@ -18,7 +18,7 @@
 	$board_id = JMC_GetInput("board_id", METHOD);
 	
 	// Check variable
-	if($session && $id) {
+	if($session && $member_username) {
 		try {
 			// Select DB table for session ID
 			mssql_select_db(DB_NAME, $conn);
