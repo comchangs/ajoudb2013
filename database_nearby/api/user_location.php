@@ -1,7 +1,6 @@
 <?php
-<?php
 /**
- * Board API
+ * User location API
 *
 * @author Jeong, Munchang
 * @since Create: 2013. 06. 01 / Update: 2013. 06. 05
@@ -13,13 +12,13 @@ include_once("./include_setup.php");
 $member_username = JMC_GetInput("member_username", METHOD);
 $session = JMC_GetInput("session", METHOD);
 $mode = JMC_GetInput("mode", METHOD);
-$subject = JMC_GetInput("subject", METHOD);
-$contents = JMC_GetInput("contents", METHOD);
-$document_id = JMC_GetInput("document_id", METHOD);
-$board_id = JMC_GetInput("board_id", METHOD);
+$location_type = JMC_GetInput("location_type", METHOD);
+$location_name = JMC_GetInput("location_name", METHOD);
+$location_latitude = JMC_GetInput("location_latitude", METHOD);
+$location_longitude = JMC_GetInput("location_longitude", METHOD);
 
 // Check variable
-if($session && $id) {
+if($session && $member_username) {
 	try {
 		// Select DB table for session ID
 		mssql_select_db(DB_NAME, $conn);
@@ -42,63 +41,43 @@ if($session && $id) {
 				}
 				case "list": {
 					mssql_select_db(DB_NAME, $conn);
-					$query2 = "select count(*) as row from document where board_id = ".$board_id;
+					$query2 = "select count(*) as row from user_location where member_id = ".$member_id;
 					$dbraw2 = mssql_query($query2, $conn);
 					$result2 = mssql_fetch_array($dbraw2);
 					if($result2['row'] > 0) {
 						$i = 0;
 						mssql_select_db(DB_NAME, $conn);
-						$query3 = "select * from document where board_id = ".$board_id." order by regdate desc";
+						$query3 = "select * from user_location where member_id = ".$member_id." order by user_location_regdate desc";
 						$dbraw3 = mssql_query($query3, $conn);
 						while($result3 = mssql_fetch_array($dbraw3)) {
 							unset($sub_data);
-							$sub_data['document_id'] = $result3['qna_id'];
-							$sub_data['document_regdate'] = $result3['regDate'];
-							$sub_data['document_moddate'] = $result3['answerDate'];
-							$sub_data['document_title'] = $result3['document_title'];
-							$sub_data['member_id'] = $result3['member_id'];
+							$sub_data['user_location_id'] = $result3['user_location_id'];
+							$sub_data['user_location_type'] = $result3['user_location_type'];
+							$sub_data['user_location_name'] = $result3['user_location_name'];
+							$sub_data['user_location_latitude'] = $result3['user_location_latitude'];
+							$sub_data['user_location_longitude'] = $result3['user_location_longitude'];
+							$sub_data['user_location_regdate'] = $result3['user_location_regdate'];
 
 							$data[$i] = $sub_data;
 							$i++;
 						}
-						JMC_PrintLIstJson('board', $data);
+						JMC_PrintLIstJson('user_location', $data);
 						exit();
 					} else {
 						$data['process'] = false;
-						$data['message'] = "Not found document";
+						$data['message'] = "Not found user_location";
 					}
 					break;
 				}
-				case "view": {
-					// Check variable
-					if($view_id) {
-						// Select DB table for evnent data
-						mssql_select_db(DB_NAME, $conn);
-						$query = "select * from document where document_id = '$document_id'";
-						$dbraw = mssql_query($query, $conn);
-						$result = mssql_fetch_array($dbraw);
-						$data['document_id'] = $result3['qna_id'];
-						$data['document_regdate'] = $result3['regDate'];
-						$data['document_moddate'] = $result3['answerDate'];
-						$data['document_title'] = $result3['document_title'];
-						$data['document_contents'] = $result3['document_contents'];
-						$data['member_id'] = $result3['member_id'];
-						$data['process'] = true;
-						$data['message'] = "Select document";
-					} else {
-						$data['process'] = false;
-						$data['message'] = "Empty parameter";
-					}
-					break;
-				}
+				
 				case "write": {
 					if($subject && $contents) {
 						// Select DB table for event data
 						mssql_select_db(DB_NAME, $conn);
-						$query = "INSERT INTO document (document_regdate, document_moddate, document_title, document_contents, member_id) VALUES ('$today', '$today', '$document_title', '$document_contents', $member_id)";
+						$query = "INSERT INTO user_location (user_location_type, user_location_name, user_location_latitude, user_location_longitude, user_location_regdate) VALUES ('$today', '$today', '$document_title', '$document_contents', $member_id)";
 						$dbraw = mssql_query($query, $conn);
 						$data['process'] = true;
-						$data['message'] = "Insert document";
+						$data['message'] = "Insert user_location";
 					} else {
 						$data['process'] = false;
 						$data['message'] = "Empty parameter";
@@ -110,10 +89,10 @@ if($session && $id) {
 					if($subject && $contents) {
 						// Select DB table for event data
 						mssql_select_db(DB_NAME, $conn);
-						$query = "UPDATE document SET document_moddate = '$today', document_title = '$subject', document_contents = '$contents'";
+						$query = "UPDATE user_location SET document_moddate = '$today', document_title = '$subject', document_contents = '$contents'";
 						$dbraw = mssql_query($query, $conn);
 						$data['process'] = true;
-						$data['message'] = "Update document";
+						$data['message'] = "Update user_location";
 					} else {
 						$data['process'] = false;
 						$data['message'] = "Empty parameter";
@@ -133,7 +112,7 @@ if($session && $id) {
 	$data['process'] = false;
 	$data['message'] = "Empty parameter";
 }
-JMC_PrintJson('board', $data);
+JMC_PrintJson('user_location', $data);
  
 include_once("./include_db_disconnect.php");
 ?>
