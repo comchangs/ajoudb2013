@@ -65,15 +65,30 @@
 			
 				case "write": {
 					if($session && $member_username) {
-						// Select DB table for event data
+						// Select DB table for session ID
 						mssql_select_db(DB_NAME, $conn);
-						$query = "INSERT INTO user_location (user_location_type, user_location_name, user_location_latitude, user_location_longitude, user_location_regdate) VALUES ('$today', '$today', '$document_title', '$document_contents', $member_id)";
-						$dbraw = mssql_query($query, $conn);
-						$data['process'] = true;
-						$data['message'] = "Insert user_location";
+						$query = "SELECT member_id, session_id, member_username FROM member WHERE member_username = '$member_username'";
+						$dbraw = mssql_query($query);
+						$result = mssql_fetch_array($dbraw);
+						if(DEBUG) $data['session'] = $result['session_id'];
+						
+						// Authorize session ID
+						if($result['session_id'] == $session) {
+						
+							$member_id = $result['member_id'];
+							// Select DB table for event data
+							mssql_select_db(DB_NAME, $conn);
+							$query = "INSERT INTO user_location (user_location_type, user_location_name, user_location_latitude, user_location_longitude, user_location_regdate) VALUES ('$today', '$today', '$document_title', '$document_contents', $member_id)";
+							$dbraw = mssql_query($query, $conn);
+							$data['process'] = true;
+							$data['message'] = "Insert user_location";
+						} else {
+							$data['process'] = false;
+							$data['message'] = "Session failed";
+						}
 					} else {
 						$data['process'] = false;
-						$data['message'] = "Session failed";
+						$data['message'] = "Empty parameter";
 					}
 					break;
 				}

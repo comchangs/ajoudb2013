@@ -1,9 +1,9 @@
 <?php
 	/**
-	 * Login APi
+	 * Member APi
 	 * 
 	 * @author Jeong, Munchang
-	 * @since Create: 2012. 08. 07 / Update: 2012. 10. 09
+	 * @since Create: 2013. 06. 01 / Update: 2013. 06. 05
 	 */
 
 	include_once("./include_setup.php");
