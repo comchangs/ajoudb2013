@@ -3,7 +3,7 @@
 	 * Group API
 	 * 
 	 * @author Jeong, Munchang
-	 * @since Create: 2013. 06. 01 / Update: 2013. 06. 05
+	 * @since Create: 2013. 06. 01 / Update: 2013. 06. 06
 	 */
 
 	include_once("./include_setup.php");
@@ -69,21 +69,21 @@
 						break;
 					}
 					
-					case "group_by_me_list": {
+					case "member_list": {
 						mssql_select_db(DB_NAME, $conn);
-						$query2 = "select count(*) as row from group where member_id = ".$member_id;
+						$query2 = "select count(*) as row from group, group_member where group_member.group_id = group.group_id and group.group_id = ".$group_id;
 						$dbraw2 = mssql_query($query2, $conn);
 						$result2 = mssql_fetch_array($dbraw2);
 						if($result2['row'] > 0) {
 							$i = 0;
 							mssql_select_db(DB_NAME, $conn);
-							$query3 = "select *  from group where member_id = ".$member_id." order by group_regdate desc";
+							$query3 = "select * from group, group_member, member where group_member.group_id = group.group_id and group_member.group_id = ".$group_id;
 							$dbraw3 = mssql_query($query3, $conn);
 							while($result3 = mssql_fetch_array($dbraw3)) {
 								unset($sub_data);
-								$sub_data['group_id'] = $result3['group_id'];
-								$sub_data['group_name'] = $result3['group_name'];
 								$sub_data['member_id'] = $result3['member_id'];
+								$sub_data['member_username'] = $result3['group_name'];
+								$sub_data['member_idm'] = $result3['member_id'];
 								$sub_data['group_description'] = $result3['group_description'];
 								$sub_data['group_regdate'] = $result3['group_regdate'];
 					
@@ -99,7 +99,7 @@
 						break;
 					}
 					
-					case "group_member_list": {
+					case "my_list": {
 						mssql_select_db(DB_NAME, $conn);
 						$query2 = "select count(*) as row from group, group_member where group_member.group_id = group.group_id and group_member.member_id = ".$member_id;
 						$dbraw2 = mssql_query($query2, $conn);
@@ -129,28 +129,6 @@
 						break;
 					}
 					
-					case "list": {
-						// Check variable
-						if($view_id) {
-							// Select DB table for evnent data
-							mssql_select_db(DB_NAME, $conn);
-							$query = "select * from group where document_id = '$document_id'";
-							$dbraw = mssql_query($query, $conn);
-							$result = mssql_fetch_array($dbraw);
-							$data['document_id'] = $result3['qna_id'];
-							$data['document_regdate'] = $result3['regDate'];
-							$data['document_moddate'] = $result3['answerDate'];
-							$data['document_title'] = $result3['document_title'];
-							$data['document_contents'] = $result3['document_contents'];
-							$data['member_id'] = $result3['member_id'];
-							$data['process'] = true;
-							$data['message'] = "Select document";
-						} else {
-							$data['process'] = false;
-							$data['message'] = "Empty parameter";
-						}
-						break;
-					}
 					
 					case "create": {
 						if($subject && $contents) {
@@ -183,6 +161,21 @@
 					}
 					
 					case "cancel": {
+						if($subject && $contents) {
+							// Select DB table for event data
+							mssql_select_db(DB_NAME, $conn);
+							$query = "UPDATE document SET document_moddate = '$today', document_title = '$subject', document_contents = '$contents'";
+							$dbraw = mssql_query($query, $conn);
+							$data['process'] = true;
+							$data['message'] = "Update document";
+						} else {
+							$data['process'] = false;
+							$data['message'] = "Empty parameter";
+						}
+						break;
+					}
+					
+					case "update": {
 						if($subject && $contents) {
 							// Select DB table for event data
 							mssql_select_db(DB_NAME, $conn);

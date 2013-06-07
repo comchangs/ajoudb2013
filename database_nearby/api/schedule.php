@@ -3,7 +3,7 @@
 	 * Schedule API
 	 * 
 	 * @author Jeong, Munchang
-	 * @since Create: 2013. 06. 01 / Update: 2013. 06. 05
+	 * @since Create: 2013. 06. 01 / Update: 2013. 06. 06
 	 */
 
 	include_once("./include_setup.php");
