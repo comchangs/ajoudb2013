@@ -7,6 +7,7 @@
 
 package ajou.database.nearby;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 import android.content.Context;
@@ -711,6 +712,7 @@ public class NMapViewer extends NMapActivity implements AnimationListener {
 
 			// [[TEMP]] handle a click event of the callout
 			Toast.makeText(NMapViewer.this, "onCalloutClick: " + item.getTitle(), Toast.LENGTH_LONG).show();
+			
 		}
 
 		@Override
@@ -820,6 +822,7 @@ public class NMapViewer extends NMapActivity implements AnimationListener {
 	/* Local Functions */
 
 	private void restoreInstanceState() {
+		/*
 		mPreferences = getPreferences(MODE_PRIVATE);
 
 		int longitudeE6 = mPreferences.getInt(KEY_CENTER_LONGITUDE, NMAP_LOCATION_DEFAULT.getLongitudeE6());
@@ -833,8 +836,46 @@ public class NMapViewer extends NMapActivity implements AnimationListener {
 		mMapController.setMapViewTrafficMode(trafficMode);
 		mMapController.setMapViewBicycleMode(bicycleMode);
 		mMapController.setMapCenter(new NGeoPoint(longitudeE6, latitudeE6), level);
-	}
+		*/
+		startMyLocation();
+		
+		int markerId = NMapPOIflagType.PIN;
 
+		ArrayList<MarkPoint> mp = new ArrayList<MarkPoint>();
+		mp.add(new MarkPoint(127.047471, 37.279432, "아주대학교") );
+		mp.add(new MarkPoint(127.048827, 37.275846, "원천중학교") );
+		mp.add(new MarkPoint(127.042283, 37.274838, "매탄1동 우체국") );
+		mp.add(new MarkPoint(127.039719, 37.277877, "우만2동 주민센터") );
+		mp.add(new MarkPoint(127.051676, 37.284263, "다산중학교") );
+
+
+		// set POI data
+		NMapPOIdata poiData = new NMapPOIdata(mp.size(), mMapViewerResourceProvider);
+		poiData.beginPOIdata(mp.size());
+		/*
+		poiData.addPOIitem(127.0630205, 37.5091300, "Pizza 777-111", markerId, 0);
+		poiData.addPOIitem(127.061, 37.51, "Pizza 123-456", markerId, 0);
+		 */
+		for(MarkPoint a : mp) {
+			poiData.addPOIitem(a.longitude, a.latitude, a.name, markerId, 0);
+		}
+		poiData.endPOIdata();
+		
+		NMapPOIdataOverlay poiDataOverlay = mOverlayManager.createPOIdataOverlay(poiData, null);
+
+		// set event listener to the overlay
+		poiDataOverlay.setOnStateChangeListener(onPOIdataStateChangeListener);
+	}
+	
+	private class MarkPoint {
+		double longitude, latitude;
+		String name;
+		public MarkPoint(double longitude, double latitude, String name) {
+			this.longitude = longitude;
+			this.latitude = latitude;
+			this.name = name;
+		}
+	}
 	private void saveInstanceState() {
 		if (mPreferences == null) {
 			return;
@@ -963,7 +1004,7 @@ public class NMapViewer extends NMapActivity implements AnimationListener {
 		return true;
 	}
 
-	/**
+	/**0
 	 * Invoked when the user selects an item from the Menu.
 	 * 
 	 * @param item the Menu entry which was selected
@@ -1009,6 +1050,7 @@ public class NMapViewer extends NMapActivity implements AnimationListener {
 				return true;
 
 			case MENU_ITEM_MY_LOCATION:
+				stopMyLocation();
 				startMyLocation();
 				return true;
 
