@@ -40,37 +40,42 @@
 						break;
 					}
 					case "list": {
-						mssql_select_db(DB_NAME, $conn);
-						$query2 = "select count(*) as row from document where board_id = ".$board_id;
-						$dbraw2 = mssql_query($query2, $conn);
-						$result2 = mssql_fetch_array($dbraw2);
-						if($result2['row'] > 0) {
-							$i = 0;
+						if($board_id) {
 							mssql_select_db(DB_NAME, $conn);
-							$query3 = "select * from document where board_id = ".$board_id." order by regdate desc";
-							$dbraw3 = mssql_query($query3, $conn);
-							while($result3 = mssql_fetch_array($dbraw3)) {
-								unset($sub_data);
-								$sub_data['document_id'] = $result3['qna_id'];
-								$sub_data['document_regdate'] = $result3['regDate'];
-								$sub_data['document_moddate'] = $result3['answerDate'];
-								$sub_data['document_title'] = $result3['document_title'];
-								$sub_data['member_id'] = $result3['member_id'];
-		
-								$data[$i] = $sub_data;
-								$i++;
+							$query2 = "select count(*) as row from document where board_id = ".$board_id;
+							$dbraw2 = mssql_query($query2, $conn);
+							$result2 = mssql_fetch_array($dbraw2);
+							if($result2['row'] > 0) {
+								$i = 0;
+								mssql_select_db(DB_NAME, $conn);
+								$query3 = "select * from document where board_id = ".$board_id." order by regdate desc";
+								$dbraw3 = mssql_query($query3, $conn);
+								while($result3 = mssql_fetch_array($dbraw3)) {
+									unset($sub_data);
+									$sub_data['document_id'] = $result3['qna_id'];
+									$sub_data['document_regdate'] = $result3['regDate'];
+									$sub_data['document_moddate'] = $result3['answerDate'];
+									$sub_data['document_title'] = $result3['document_title'];
+									$sub_data['member_id'] = $result3['member_id'];
+			
+									$data[$i] = $sub_data;
+									$i++;
+								}
+								JMC_PrintLIstJson('board', $data);
+								exit();
+							} else {
+								$data['process'] = false;
+								$data['message'] = "Not found document";
 							}
-							JMC_PrintLIstJson('board', $data);
-							exit();
 						} else {
 							$data['process'] = false;
-							$data['message'] = "Not found document";
+							$data['message'] = "Empty parameter";
 						}
 						break;
 					}
 					case "view": {
 						// Check variable
-						if($view_id) {
+						if($document_id) {
 							// Select DB table for evnent data
 							mssql_select_db(DB_NAME, $conn);
 							$query = "select * from document where document_id = '$document_id'";
@@ -94,7 +99,7 @@
 						if($subject && $contents) {
 							// Select DB table for event data
 							mssql_select_db(DB_NAME, $conn);
-							$query = "INSERT INTO document (document_regdate, document_moddate, document_title, document_contents, member_id) VALUES ('$today', '$today', '$document_title', '$document_contents', $member_id)";
+							$query = "INSERT INTO document (document_regdate, document_moddate, document_title, document_contents, member_id) VALUES ('$today', '$today', '$subject', '$contents', $member_id)";
 							$dbraw = mssql_query($query, $conn);
 							$data['process'] = true;
 							$data['message'] = "Insert document";
@@ -106,10 +111,25 @@
 					}
 					
 					case "update": {
-						if($subject && $contents) {
+						if($subject && $contents && $document_id) {
 							// Select DB table for event data
 							mssql_select_db(DB_NAME, $conn);
-							$query = "UPDATE document SET document_moddate = '$today', document_title = '$subject', document_contents = '$contents'";
+							$query = "UPDATE document SET document_moddate = '$today', document_title = '$subject', document_contents = '$contents' where document_id = '$document_id'";
+							$dbraw = mssql_query($query, $conn);
+							$data['process'] = true;
+							$data['message'] = "Update document";
+						} else {
+							$data['process'] = false;
+							$data['message'] = "Empty parameter";
+						}
+						break;
+					}
+					
+					case "delete": {
+						if($document_id) {
+							// Select DB table for event data
+							mssql_select_db(DB_NAME, $conn);
+							$query = "DELETE from document where document_id = '$document_id'";
 							$dbraw = mssql_query($query, $conn);
 							$data['process'] = true;
 							$data['message'] = "Update document";

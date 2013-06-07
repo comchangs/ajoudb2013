@@ -40,32 +40,37 @@ if($session && $member_username) {
 					break;
 				}
 				case "list": {
-					mssql_select_db(DB_NAME, $conn);
-					$query2 = "select count(*) as row from user_location where member_id = ".$member_id;
-					$dbraw2 = mssql_query($query2, $conn);
-					$result2 = mssql_fetch_array($dbraw2);
-					if($result2['row'] > 0) {
-						$i = 0;
+					if($member_id) {
 						mssql_select_db(DB_NAME, $conn);
-						$query3 = "select * from user_location where member_id = ".$member_id." order by user_location_regdate desc";
-						$dbraw3 = mssql_query($query3, $conn);
-						while($result3 = mssql_fetch_array($dbraw3)) {
-							unset($sub_data);
-							$sub_data['user_location_id'] = $result3['user_location_id'];
-							$sub_data['user_location_type'] = $result3['user_location_type'];
-							$sub_data['user_location_name'] = $result3['user_location_name'];
-							$sub_data['user_location_latitude'] = $result3['user_location_latitude'];
-							$sub_data['user_location_longitude'] = $result3['user_location_longitude'];
-							$sub_data['user_location_regdate'] = $result3['user_location_regdate'];
-
-							$data[$i] = $sub_data;
-							$i++;
+						$query2 = "select count(*) as row from user_location where member_id = ".$member_id;
+						$dbraw2 = mssql_query($query2, $conn);
+						$result2 = mssql_fetch_array($dbraw2);
+						if($result2['row'] > 0) {
+							$i = 0;
+							mssql_select_db(DB_NAME, $conn);
+							$query3 = "select * from user_location where member_id = ".$member_id." order by user_location_regdate desc";
+							$dbraw3 = mssql_query($query3, $conn);
+							while($result3 = mssql_fetch_array($dbraw3)) {
+								unset($sub_data);
+								$sub_data['user_location_id'] = $result3['user_location_id'];
+								$sub_data['user_location_type'] = $result3['user_location_type'];
+								$sub_data['user_location_name'] = $result3['user_location_name'];
+								$sub_data['user_location_latitude'] = $result3['user_location_latitude'];
+								$sub_data['user_location_longitude'] = $result3['user_location_longitude'];
+								$sub_data['user_location_regdate'] = $result3['user_location_regdate'];
+	
+								$data[$i] = $sub_data;
+								$i++;
+							}
+							JMC_PrintLIstJson('user_location', $data);
+							exit();
+						} else {
+							$data['process'] = false;
+							$data['message'] = "Not found user_location";
 						}
-						JMC_PrintLIstJson('user_location', $data);
-						exit();
 					} else {
 						$data['process'] = false;
-						$data['message'] = "Not found user_location";
+						$data['message'] = "Empty parameter";
 					}
 					break;
 				}

@@ -3,7 +3,7 @@
 	 * Register API
 	 * 
 	 * @author Jeong, Munchang
-	 * @since Create: 2013. 06. 01 / Update: 2013. 06. 05
+	 * @since Create: 2013. 06. 01 / Update: 2013. 06. 06
 	 */
 
 	include_once("./include_setup.php");
@@ -12,10 +12,9 @@
 	$member_username = JMC_GetInput("member_username", METHOD);
 	$session = JMC_GetInput("session", METHOD);
 	$mode = JMC_GetInput("mode", METHOD);
-	$subject = JMC_GetInput("subject", METHOD);
-	$contents = JMC_GetInput("contents", METHOD);
-	$document_id = JMC_GetInput("document_id", METHOD);
-	$board_id = JMC_GetInput("board_id", METHOD);
+	$location_id = JMC_GetInput("location_id", METHOD);
+	$register_status = JMC_GetInput("register_status", METHOD);
+	$register_id = JMC_GetInput("register_id", METHOD);
 	
 	// Check variable
 	if($session && $member_username) {
@@ -41,42 +40,42 @@
 					}
 					case "list": {
 						mssql_select_db(DB_NAME, $conn);
-						$query2 = "select count(*) as row from document where board_id = ".$board_id;
+						$query2 = "select count(*) as row from register, location, location_category where register.location_id = location.location_id and location_category.location_category_id = location.location_category_id and member_id = ".$member_id;
 						$dbraw2 = mssql_query($query2, $conn);
 						$result2 = mssql_fetch_array($dbraw2);
 						if($result2['row'] > 0) {
 							$i = 0;
 							mssql_select_db(DB_NAME, $conn);
-							$query3 = "select * from document where board_id = ".$board_id." order by regdate desc";
+							$query3 = "select * from register, location, location_category where register.location_id = location.location_id and location_category.location_category_id = location.location_category_id and member_id = ".$member_id." order by register_regdate desc";
 							$dbraw3 = mssql_query($query3, $conn);
 							while($result3 = mssql_fetch_array($dbraw3)) {
 								unset($sub_data);
-								$sub_data['document_id'] = $result3['qna_id'];
-								$sub_data['document_regdate'] = $result3['regDate'];
-								$sub_data['document_moddate'] = $result3['answerDate'];
-								$sub_data['document_title'] = $result3['document_title'];
-								$sub_data['member_id'] = $result3['member_id'];
+								
+								$sub_data['register_id'] = $result3['register_id'];
+								$sub_data['location_id'] = $result3['location_id'];
+								$sub_data['location_name'] = $result3['location_name'];
+								$sub_data['location_category_name'] = $result3['location_category_name'];
 		
 								$data[$i] = $sub_data;
 								$i++;
 							}
-							JMC_PrintLIstJson('board', $data);
+							JMC_PrintLIstJson('register', $data);
 							exit();
 						} else {
 							$data['process'] = false;
-							$data['message'] = "Not found document";
+							$data['message'] = "Not found data";
 						}
 						break;
 					}
 
 					case "apply": {
-						if($subject && $contents) {
+						if($location_id && $member_id) {
 							// Select DB table for event data
 							mssql_select_db(DB_NAME, $conn);
-							$query = "INSERT INTO document (document_regdate, document_moddate, document_title, document_contents, member_id) VALUES ('$today', '$today', '$document_title', '$document_contents', $member_id)";
+							$query = "INSERT INTO register (register_regdate, location_id, member_id) VALUES ('$today', '$location_id', '$member_id')";
 							$dbraw = mssql_query($query, $conn);
 							$data['process'] = true;
-							$data['message'] = "Insert document";
+							$data['message'] = "Insert data";
 						} else {
 							$data['process'] = false;
 							$data['message'] = "Empty parameter";
@@ -85,13 +84,13 @@
 					}
 					
 					case "update": {
-						if($subject && $contents) {
+						if($register_id && $register_status) {
 							// Select DB table for event data
 							mssql_select_db(DB_NAME, $conn);
-							$query = "UPDATE document SET document_moddate = '$today', document_title = '$subject', document_contents = '$contents'";
+							$query = "UPDATE register SET register_status = '$register_status' where register_id=".$register_id;
 							$dbraw = mssql_query($query, $conn);
 							$data['process'] = true;
-							$data['message'] = "Update document";
+							$data['message'] = "Update data";
 						} else {
 							$data['process'] = false;
 							$data['message'] = "Empty parameter";
@@ -99,20 +98,6 @@
 						break;
 					}
 					
-					case "cancel": {
-						if($subject && $contents) {
-							// Select DB table for event data
-							mssql_select_db(DB_NAME, $conn);
-							$query = "UPDATE document SET document_moddate = '$today', document_title = '$subject', document_contents = '$contents'";
-							$dbraw = mssql_query($query, $conn);
-							$data['process'] = true;
-							$data['message'] = "Update document";
-						} else {
-							$data['process'] = false;
-							$data['message'] = "Empty parameter";
-						}
-						break;
-					}
 				}
 			} else {
 				$data['process'] = false;
@@ -126,7 +111,7 @@
 		$data['process'] = false;
 		$data['message'] = "Empty parameter";
 	}
-	JMC_PrintJson('board', $data);
+	JMC_PrintJson('register', $data);
 	    
     include_once("./include_db_disconnect.php");
 ?>

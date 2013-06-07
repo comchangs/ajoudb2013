@@ -1,9 +1,9 @@
 <?php
 	/**
-	 * Member APi
+	 * Member API
 	 * 
 	 * @author Jeong, Munchang
-	 * @since Create: 2013. 06. 01 / Update: 2013. 06. 05
+	 * @since Create: 2013. 06. 01 / Update: 2013. 06. 06
 	 */
 
 	include_once("./include_setup.php");
@@ -13,15 +13,11 @@
 	$push_id = JMC_GetInput("push_id", METHOD);
 	$tel = JMC_GetInput("tel", METHOD);
 	$session = JMC_GetInput("session", METHOD);
-	$name = JMC_GetInput("name", METHOD);
-	$cardno = JMC_GetInput("cardno", METHOD);
+	$username = JMC_GetInput("username", METHOD);
+	$password = JMC_GetInput("password", METHOD);
 	$type = JMC_GetInput("type", METHOD);
-	$level = JMC_GetInput("level", METHOD);
-	$birthday = JMC_GetInput("birthday", METHOD);
 	$phonetype = JMC_GetInput("phonetype", METHOD);
 	$pushtype = JMC_GetInput("pushtype", METHOD);
-	$pushstatus = JMC_GetInput("pushstatus", METHOD);
-	$membership_tel = JMC_GetInput("membership_tel", METHOD);
 	
 	// Select mode
 	switch($mode) {
@@ -30,53 +26,33 @@
 			$data['message'] = "Mode error";
 			break;
 		}
-		case "init": {
-			/*
-			 * Input : push_id, tel
-			 * Output : session, process, message
-			 */
-			if(DEBUG) $data['mode'] = $mode;
-			if(DEBUG) $data['push_id'] = $push_id;
-			if(DEBUG) $data['tel'] = $tel;
-			if(DEBUG) $data['session'] = $session;
-			if(DEBUG) $data['name'] = $name;
-			if(DEBUG) $data['cardno'] = $cardno;
-			if(DEBUG) $data['type'] = $type;
-			if(DEBUG) $data['level'] = $level;
-			if(DEBUG) $data['birthday'] = $birthday;
-			
+		case "check_push_id": {
 			// Check variable
-			if($push_id && $tel && $phonetype) {
+			if($push_id && $username && $phonetype) {
 				try {
 					// Select DB table for push ID
 					$new_session = JMC_CreateSession();
-					mssql_select_db(HANNAM_DB_NAME, $conn_hannam);
-					$query = "SELECT C2DM_id, session_id FROM tbl_app_member WHERE phoneNumber = '$tel'";
+					mssql_select_db(DB_NAME, $conn);
+					$query = "SELECT member_phone_type, member_push_id, session_id FROM member WHERE username = '$username'";
 					$dbraw = mssql_query($query);
 					$result = mssql_fetch_array($dbraw);
-					
-					if($result['C2DM_id'] == $push_id) {
+						
+					if($result['member_push_id'] == $push_id) {
 						$data['process'] = true;
 						$data['message'] = "Registered user";
-					} elseif (isset($result['C2DM_id']) && $result['C2DM_id'] != $push_id) {
-						mssql_select_db(HANNAM_DB_NAME, $conn_hannam);
-						$query = "UPDATE tbl_app_member SET C2DM_id = '$push_id', session_id = '$new_session', phoneType = '$phonetype' WHERE phoneNumber = '$tel'";
+					} elseif (isset($result['member_push_id']) && $result['member_push_id'] != $push_id) {
+						mssql_select_db(DB_NAME, $conn);
+						$query = "UPDATE member SET member_push_id = '$push_id', session_id = '$new_session', member_phone_type = '$phonetype' WHERE username = '$username'";
 						$dbraw = mssql_query($query);
 						$data['process'] = true;
 						$data['message'] = "User's push_id updated";
-					} else {
-						mssql_select_db(HANNAM_DB_NAME, $conn_hannam);
-						$query = "INSERT INTO tbl_app_member (phoneNumber, C2DM_id, regDate, modDate, session_id, phoneType) VALUES ('$tel', '$push_id', '$today', '$today', '$new_session', $phonetype)";
-						$dbraw = mssql_query($query);
-						$data['process'] = true;
-						$data['message'] = "User Inserted";
 					}
-					mssql_select_db(HANNAM_DB_NAME, $conn_hannam);
-					$query = "SELECT session_id FROM tbl_app_member WHERE phoneNumber = '$tel'";
+					mssql_select_db(DB_NAME, $conn);
+					$query = "SELECT session_id FROM member WHERE member_username = '$username'";
 					$dbraw = mssql_query($query);
 					$result = mssql_fetch_array($dbraw);
 					$data['session'] = $result['session_id'];
-					 
+		
 				} catch(Exception $e) {
 					$data['process'] = false;
 					$data['message'] = $e;
@@ -87,67 +63,33 @@
 			}
 			break;
 		}
-		case "tel_search": {
-			/*
-			 * Input : session, tel
-			 * Output : cardNo, cardCount, process, message
-			 */
-			if(DEBUG) $data['mode'] = $mode;
-			if(DEBUG) $data['push_id'] = $push_id;
-			if(DEBUG) $data['tel'] = $tel;
-			if(DEBUG) $data['session'] = $session;
-			if(DEBUG) $data['name'] = $name;
-			if(DEBUG) $data['cardno'] = $cardno;
-			if(DEBUG) $data['type'] = $type;
-			if(DEBUG) $data['level'] = $level;
-			if(DEBUG) $data['birthday'] = $birthday;
-			
+		case "join": {			
 			// Check variable
-			if($session && $tel) {
+			if($push_id && $username && $password && $tel && $type) {
 				try {
-					// Select DB table for session ID
-					mssql_select_db(HANNAM_DB_NAME, $conn_hannam);
-					$query = "SELECT session_id FROM tbl_app_member WHERE phoneNumber = '$tel'";
+					// Select DB table for push ID
+					$new_session = JMC_CreateSession();
+					mssql_select_db(DB_NAME, $conn);
+					$query = "SELECT username FROM member WHERE username = '$username'";
 					$dbraw = mssql_query($query);
 					$result = mssql_fetch_array($dbraw);
-					if(DEBUG) $data['session'] = $result['session_id'];
 					
-					// Authorize session ID
-					if($result['session_id'] == $session) {
-						// Select DB table for search member's phone number
-						mssql_select_db( BBY_DB_NAME, $conn_bby );
-						$query = "SELECT cardNo FROM tblCustomer WHERE Phone = '$tel'";
-						$dbraw = mssql_query($query, $conn_bby);
-						$result = mssql_fetch_array($dbraw);
-						$result_num_row = mssql_num_rows($dbraw);
+					if($result['username'] != $username) {
+						mssql_select_db(DB_NAME, $conn);
+						$query = "INSERT INTO member (member_tel_number, member_push_id, member_regDate, member_modDate, session_id, member_phone_type) VALUES ('$tel', '$push_id', '$today', '$today', '$new_session', $phonetype)";
+						$dbraw = mssql_query($query);
 						
-						// Count member's cards
-						if($result_num_row < 1) {
-							$data['process'] = false;
-							$data['message'] = "Not found phone number";
-						} elseif($result_num_row == 1) {
-							$data['process'] = true;
-							$data['message'] = "Found phone number";
-							$data['cardNo'] = $result['cardNo'];
-						} elseif($result_num_row > 1) {
-							$data['process'] = false;
-							$data['message'] = "duplicated phone number";
-							$data['cardCount'] = $result_num_row;
-							
-							// 중복되는 카드 목록 출력
-							if(DEBUG) {
-								$index_card = 1;
-								$data['cardNo_'+$index_card] = $result['cardNo'];
-								while($result = mssql_fetch_array($dbraw)) {
-									$index_card++;
-									$data['cardNo_'+$index_card] = $result['cardNo'];
-								}
-							}
-						}
-					}
-					else {
+						mssql_select_db(DB_NAME, $conn);
+						$query = "SELECT session_id FROM member WHERE member_username = '$username'";
+						$dbraw = mssql_query($query);
+						$result = mssql_fetch_array($dbraw);
+						
+						$data['process'] = true;
+						$data['message'] = "User Inserted";
+						$data['session'] = $result['session_id'];
+					} else {
 						$data['process'] = false;
-						$data['message'] = "Session failed";
+						$data['message'] = "Duplicated username";
 					}
 					 
 				} catch(Exception $e) {
@@ -160,361 +102,26 @@
 			}
 			break;
 		}
-		case "membership_tel_search": {
-			/*
-			 * Input : session, tel
-			* Output : cardNo, cardCount, process, message
-			*/
-			if(DEBUG) $data['mode'] = $mode;
-			if(DEBUG) $data['push_id'] = $push_id;
-			if(DEBUG) $data['tel'] = $tel;
-			if(DEBUG) $data['session'] = $session;
-			if(DEBUG) $data['name'] = $name;
-			if(DEBUG) $data['cardno'] = $cardno;
-			if(DEBUG) $data['type'] = $type;
-			if(DEBUG) $data['level'] = $level;
-			if(DEBUG) $data['birthday'] = $birthday;
-			if(DEBUG) $data['membership_tel'] = $membership_tel;
-				
-			// Check variable
-			if($session && $tel) {
-				try {
-					// Select DB table for session ID
-					mssql_select_db(HANNAM_DB_NAME, $conn_hannam);
-					$query = "SELECT session_id FROM tbl_app_member WHERE phoneNumber = '$tel'";
-					$dbraw = mssql_query($query);
-					$result = mssql_fetch_array($dbraw);
-					if(DEBUG) $data['session'] = $result['session_id'];
-						
-					// Authorize session ID
-					if($result['session_id'] == $session) {
-						// Select DB table for search member's phone number
-						mssql_select_db( BBY_DB_NAME, $conn_bby );
-						$query = "SELECT cardNo FROM tblCustomer WHERE Phone = '$membership_tel'";
-						$dbraw = mssql_query($query, $conn_bby);
-						$result = mssql_fetch_array($dbraw);
-						$result_num_row = mssql_num_rows($dbraw);
 		
-						// Count member's cards
-						if($result_num_row < 1) {
-							$data['process'] = false;
-							$data['message'] = "Not found phone number";
-						} elseif($result_num_row == 1) {
-							$data['process'] = true;
-							$data['message'] = "Found phone number";
-							$data['cardNo'] = $result['cardNo'];
-						} elseif($result_num_row > 1) {
-							$data['process'] = false;
-							$data['message'] = "duplicated phone number";
-							$data['cardCount'] = $result_num_row;
-								
-							// 중복되는 카드 목록 출력
-							if(DEBUG) {
-								$index_card = 1;
-								$data['cardNo_'+$index_card] = $result['cardNo'];
-								while($result = mssql_fetch_array($dbraw)) {
-									$index_card++;
-									$data['cardNo_'+$index_card] = $result['cardNo'];
-								}
-							}
-						}
-					}
-					else {
-						$data['process'] = false;
-						$data['message'] = "Session failed";
-					}
-		
-				} catch(Exception $e) {
-					$data['process'] = false;
-					$data['message'] = $e;
-				}
-			} else {
-				$data['process'] = false;
-				$data['message'] = "Empty parameter";
-			}
-			break;
-		}
-		case "name_search": {
-			/*
-			 * Input : session, tel, name
-			 * Output : cardNo, cardCount, process, message
-			 */
-			if(DEBUG) $data['mode'] = $mode;
-			if(DEBUG) $data['push_id'] = $push_id;
-			if(DEBUG) $data['tel'] = $tel;
-			if(DEBUG) $data['session'] = $session;
-			if(DEBUG) $data['name'] = $name;
-			if(DEBUG) $data['cardno'] = $cardno;
-			if(DEBUG) $data['type'] = $type;
-			if(DEBUG) $data['level'] = $level;
-			if(DEBUG) $data['birthday'] = $birthday;
-			
-			// Check variable
-			if($session && $name && $tel) {
-				try {
-					// Select DB table for session ID
-					mssql_select_db(HANNAM_DB_NAME, $conn_hannam);
-					$query = "SELECT session_id FROM tbl_app_member WHERE phoneNumber = '$tel'";
-					$dbraw = mssql_query($query);
-					$result = mssql_fetch_array($dbraw);
-					if(DEBUG) $data['session'] = $result['session_id'];
-					
-					// Authorize session ID
-					if($result['session_id'] == $session) {
-						// Select DB table for search member's Korean name
-						mssql_select_db(BBY_DB_NAME, $conn_bby);
-						$query = "SELECT cardNo FROM tblCustomer WHERE KrName = '$name' AND Phone = '$tel'";
-						$query = iconv('utf-8', 'euc-kr',$query);
-						$dbraw = mssql_query($query, $conn_bby);
-						$result = mssql_fetch_array($dbraw);
-						$result_num_row = mssql_num_rows($dbraw);
-						
-						// Count member's cards
-						if($result_num_row < 1) {
-							$data['process'] = false;
-							$data['message'] = "Not found phone number";
-						} elseif($result_num_row == 1) {
-							$data['process'] = true;
-							$data['message'] = "Found phone number";
-							$data['cardNo'] = $result['cardNo'];
-						} elseif($result_num_row > 1) {
-							$data['process'] = false;
-							$data['message'] = "duplicated phone number";
-							$data['cardCount'] = $result_num_row;
-							
-							// 중복되는 카드 목록 출력
-							if(DEBUG) {
-								$index_card = 1;
-								$data['cardNo_'+$index_card] = $result['cardNo'];
-								while($result = mssql_fetch_array($dbraw)) {
-									$index_card++;
-									$data['cardNo_'+$index_card] = $result['cardNo'];
-								}
-							}
-						}
-					}
-					else {
-						$data['process'] = false;
-						$data['message'] = "Session failed";
-					}
-				} catch(Exception $e) {
-					$data['process'] = false;
-					$data['message'] = $e;
-				}
-			} else {
-				$data['process'] = false;
-				$data['message'] = "Empty parameter";
-			}
-			break;
-		}
-		case "birth_search": {
-			/*
-			 * Input : session, tel, birthday
-			 * Output : cardNo, cardCount, process, message
-			 */
-			if(DEBUG) $data['mode'] = $mode;
-			if(DEBUG) $data['push_id'] = $push_id;
-			if(DEBUG) $data['tel'] = $tel;
-			if(DEBUG) $data['session'] = $session;
-			if(DEBUG) $data['name'] = $name;
-			if(DEBUG) $data['cardno'] = $cardno;
-			if(DEBUG) $data['type'] = $type;
-			if(DEBUG) $data['level'] = $level;
-			if(DEBUG) $data['birthday'] = $birthday;
-		
-			// Check variable
-			if($session && $birthday && $tel) {
-				try {
-					// Select DB table for session ID
-					mssql_select_db(HANNAM_DB_NAME, $conn_hannam);
-					$query = "SELECT session_id FROM tbl_app_member WHERE phoneNumber = '$tel'";
-					$dbraw = mssql_query($query);
-					$result = mssql_fetch_array($dbraw);
-					if(DEBUG) $data['session'] = $result['session_id'];
-					
-					// Authorize session ID
-					if($result['session_id'] == $session) {
-						// Select DB table for search member's birthday
-						mssql_select_db(BBY_DB_NAME, $conn_bby);
-						$query = "SELECT cardNo FROM tblCustomer WHERE birthDate = '$birthday' AND Phone = '$tel'";
-						$dbraw = mssql_query($query, $conn_bby);
-						$result = mssql_fetch_array($dbraw);
-						$result_num_row = mssql_num_rows($dbraw);
-						
-						// Count member's cards
-						if($result_num_row < 1) {
-							$data['process'] = false;
-							$data['message'] = "Not found phone number";
-						} elseif($result_num_row == 1) {
-							$data['process'] = true;
-							$data['message'] = "Found phone number";
-							$data['cardNo'] = $result['cardNo'];
-						} elseif($result_num_row > 1) {
-							$data['process'] = false;
-							$data['message'] = "duplicated phone number";
-							$data['cardCount'] = $result_num_row;
-							
-							// 중복되는 카드 목록 출력
-							if(DEBUG) {
-								$index_card = 1;
-								$data['cardNo_'+$index_card] = $result['cardNo'];
-								while($result = mssql_fetch_array($dbraw)) {
-									$index_card++;
-									$data['cardNo_'+$index_card] = $result['cardNo'];
-								}
-							}
-						}
-					}
-					else {
-						$data['process'] = false;
-						$data['message'] = "Session failed";
-					}
-				} catch(Exception $e) {
-					$data['process'] = false;
-					$data['message'] = $e;
-				}
-			} else {
-				$data['process'] = false;
-				$data['message'] = "Empty parameter";
-			}
-			break;
-		}
-		case "card_search": {
-			/*
-			 * Input : session, tel, cardno
-			 * Output : cardNo, process, message
-			 */
-			if(DEBUG) $data['mode'] = $mode;
-			if(DEBUG) $data['push_id'] = $push_id;
-			if(DEBUG) $data['tel'] = $tel;
-			if(DEBUG) $data['session'] = $session;
-			if(DEBUG) $data['name'] = $name;
-			if(DEBUG) $data['cardno'] = $cardno;
-			if(DEBUG) $data['type'] = $type;
-			if(DEBUG) $data['level'] = $level;
-			if(DEBUG) $data['birthday'] = $birthday;
-			
-			// Check variable
-			if($session && $cardno && $tel) {
-				try {
-					// Select DB table for session ID
-					mssql_select_db(HANNAM_DB_NAME, $conn_hannam);
-					$query = "SELECT session_id FROM tbl_app_member WHERE phoneNumber = '$tel'";
-					$dbraw = mssql_query($query);
-					$result = mssql_fetch_array($dbraw);
-					if(DEBUG) $data['session'] = $result['session_id'];
-					
-					// Authorize session ID
-					if($result['session_id'] == $session) {
-						mssql_select_db(BBY_DB_NAME, $conn_bby);
-						$query = "SELECT cardNo FROM tblCustomer WHERE cardNo = '$cardno'";
-						$dbraw = mssql_query($query, $conn_bby);
-						$result = mssql_fetch_array($dbraw);
-						$result_num_row = mssql_num_rows($dbraw);
-						if($result_num_row < 1) {
-							$data['process'] = false;
-							$data['message'] = "Not found card number";
-						} elseif($result_num_row == 1) {
-							$data['process'] = true;
-							$data['message'] = "Found card number";
-							$data['cardNo'] = $result['cardNo'];
-						}
-					}
-					else {
-						$data['process'] = false;
-						$data['message'] = "Session failed";
-					}
-				} catch(Exception $e) {
-					$data['process'] = false;
-					$data['message'] = $e;
-				}
-			} else {
-				$data['process'] = false;
-				$data['message'] = "Empty parameter";
-			}
-			break;
-		}
 		case "update": {
-			/*
-			 * Input : session, cardno, tel, level, type
-			 * Output : process, message
-			 */
-			if(DEBUG) $data['mode'] = $mode;
-			if(DEBUG) $data['push_id'] = $push_id;
-			if(DEBUG) $data['tel'] = $tel;
-			if(DEBUG) $data['session'] = $session;
-			if(DEBUG) $data['name'] = $name;
-			if(DEBUG) $data['cardno'] = $cardno;
-			if(DEBUG) $data['type'] = $type;
-			if(DEBUG) $data['level'] = $level;
-			if(DEBUG) $data['birthday'] = $birthday;
 			
 			// Check variable
-			if($session && $tel && $type) {
+			if($session && $username && $password && $tel) {
 				try {
 					// Select DB table for session ID
-					mssql_select_db(HANNAM_DB_NAME, $conn_hannam);
-					$query = "SELECT session_id, cardNo FROM tbl_app_member WHERE phoneNumber = '$tel'";
+					mssql_select_db(DB_NAME, $conn);
+					$query = "SELECT session_id FROM member WHERE member_username = '$username'";
 					$dbraw = mssql_query($query);
 					$result = mssql_fetch_array($dbraw);
 					if(DEBUG) $data['session'] = $result['session_id'];
 					
 					// Authorize session ID
 					if($result['session_id'] == $session) {
-						switch ($type) {
-							// Update DB table 'tbl_app_member' for member's card number
-							case "card": {
-								try {
-									if($cardno == "" || $cardno == " ") {
-										$data['process'] = false;
-										$data['message'] = "Empty parameter";
-									} else {
-										mssql_select_db( HANNAM_DB_NAME, $conn_hannam );
-										$query = "UPDATE tbl_app_member SET cardNo = '$cardno' WHERE phoneNumber = '$tel'";
-										$dbraw = mssql_query($query);
-										$data['process'] = true;
-										$data['message'] = "Card number updated";
-									}
-								} catch(Exception $e) {
-									$data['process'] = false;
-									$data['message'] = $e;
-								}
-								continue;
-							}
-							// Update DB table 'tbl_app_member' for member's level
-							case "level": {
-								if($level == "" || $level == " ") {
-									$data['process'] = false;
-									$data['message'] = "Empty parameter";
-								} else {
-									try {
-										mssql_select_db( HANNAM_DB_NAME, $conn_hannam );
-										$query = "UPDATE tbl_app_member SET level = '$level' WHERE phoneNumber = '$tel'";
-										$dbraw = mssql_query($query);
-										$data['process'] = true;
-										$data['message'] = "Level updated";
-									} catch(Exception $e) {
-										$data['process'] = false;
-										$data['message'] = $e;
-									}
-								}
-								continue;
-							}
-							// Update DB table 'tblCustomer' for member's phone number
-							case "change_phone": {
-								try {
-									mssql_select_db(BBY_DB_NAME, $conn_bby);
-									$query = "UPDATE tblCustomer SET Phone = '$tel' WHERE cardNo = '$cardno'";
-									//$dbraw = mssql_query($query, $conn_bby); //고객 DB업데이트
-									$data['process'] = true;
-									$data['message'] = "Phone number updated";
-								} catch(Exception $e) {
-									$data['process'] = false;
-									$data['message'] = $e;
-								}
-								continue;
-							}
-						}
+						mssql_select_db( DB_NAME, $conn );
+						$query = "UPDATE member SET member_tel_number = '$tel', member_password = '$password' WHERE member_username = '$username'";
+						$dbraw = mssql_query($query);
+						$data['process'] = true;
+						$data['message'] = "User data updated";
 					}
 					else {
 						$data['process'] = false;
@@ -531,138 +138,32 @@
 			break;
 		}
 		case "login": {
-			/* 
-			 * Input : tel, push_id
-			 * Output : session, process, message
-			 */
-			if(DEBUG) $data['mode'] = $mode;
-			if(DEBUG) $data['push_id'] = $push_id;
-			if(DEBUG) $data['tel'] = $tel;
-			if(DEBUG) $data['session'] = $session;
-			if(DEBUG) $data['name'] = $name;
-			if(DEBUG) $data['cardno'] = $cardno;
-			if(DEBUG) $data['type'] = $type;
-			if(DEBUG) $data['level'] = $level;
-			if(DEBUG) $data['birthday'] = $birthday;
-			
+
 			// Check variable
-			if($tel && $push_id) {
+			if($username && $password) {
 				try {
 					// Select DB table for authorize session ID and telephone number
 					$new_session = JMC_CreateSession();
-					mssql_select_db( HANNAM_DB_NAME, $conn_hannam );
-					$query = "SELECT C2DM_id FROM tbl_app_member WHERE phoneNumber = '$tel' and C2DM_id = '$push_id'";
+					mssql_select_db( DB_NAME, $conn );
+					$query = "SELECT member_username FROM member WHERE member_username = '$username' and member_password = '$password'";
 					$dbraw = mssql_query($query);
 					$result = mssql_fetch_array($dbraw);
-					if(isset($result['C2DM_id'])) {
-						$query = "UPDATE tbl_app_member SET session_id = '$new_session' WHERE phoneNumber = '$tel'";
+					if(isset($result['member_username'])) {
+						$query = "UPDATE member SET session_id = '$new_session' WHERE member_username = '$username'";
 						$dbraw = mssql_query($query);
 						sleep(1); //DB 업데이트 되는 시간
-						$query = "SELECT session_id, level FROM tbl_app_member WHERE phoneNumber = '$tel'";
+						$query = "SELECT session_id, member_type FROM member WHERE member_username = '$username'";
 						$dbraw = mssql_query($query);
 						$result = mssql_fetch_array($dbraw);
 						if($new_session == $result['session_id']) {
 							$data['session'] = $result['session_id'];
-							$data['level'] = $result['level'];
+							$data['type'] = $result['member_type'];
 							$data['process'] = true;
 							$data['message'] = "Created new session ID";
 						} else {
 							$data['process'] = false;
 							$data['message'] = "Not created new session ID";
 						}
-					} else {
-						$data['process'] = false;
-						$data['message'] = "Not found member data";
-					}
-				} catch(Exception $e) {
-					$data['process'] = false;
-					$data['message'] = $e;
-				}
-			} else {
-				$data['process'] = false;
-				$data['message'] = "Empty parameter";
-			}
-			break;
-		}
-		case "setting": {
-			/*
-			 * Input : tel, push_id
-			* Output : process, message
-			*/
-			if(DEBUG) $data['mode'] = $mode;
-			if(DEBUG) $data['push_id'] = $push_id;
-			if(DEBUG) $data['tel'] = $tel;
-			if(DEBUG) $data['session'] = $session;
-			if(DEBUG) $data['name'] = $name;
-			if(DEBUG) $data['cardno'] = $cardno;
-			if(DEBUG) $data['type'] = $type;
-			if(DEBUG) $data['level'] = $level;
-			if(DEBUG) $data['birthday'] = $birthday;
-			if(DEBUG) $data['pushtype'] = $pushtype;
-			if(DEBUG) $data['pushstatus'] = $pushstatus;
-				
-			// Check variable
-			if($tel && $push_id) {
-				try {
-					// Select DB table
-					$new_session = JMC_CreateSession();
-					mssql_select_db( HANNAM_DB_NAME, $conn_hannam );
-					$query = "SELECT push_event, push_flyer, push_qna, level FROM tbl_app_member WHERE phoneNumber = '$tel' and C2DM_id = '$push_id'";
-					$dbraw = mssql_query($query);
-					$result = mssql_fetch_array($dbraw);
-					$data['level'] = $result['level'];
-					$data['push_event'] = $result['push_event'];
-					$data['push_flyer'] = $result['push_flyer'];
-					$data['push_qna'] = $result['push_qna'];
-					$data['process'] = true;
-					$data['message'] = "Found member data";
-				} catch(Exception $e) {
-					$data['process'] = false;
-					$data['message'] = $e;
-				}
-			} else {
-				$data['process'] = false;
-				$data['message'] = "Empty parameter";
-			}
-			break;
-		}
-		
-		case "push": {
-			/*
-			 * Input : tel, push_id, pushtype, pushstatus
-			* Output : process, message
-			*/
-			if(DEBUG) $data['mode'] = $mode;
-			if(DEBUG) $data['push_id'] = $push_id;
-			if(DEBUG) $data['tel'] = $tel;
-			if(DEBUG) $data['session'] = $session;
-			if(DEBUG) $data['name'] = $name;
-			if(DEBUG) $data['cardno'] = $cardno;
-			if(DEBUG) $data['type'] = $type;
-			if(DEBUG) $data['level'] = $level;
-			if(DEBUG) $data['birthday'] = $birthday;
-		
-			// Check variable
-			if($tel && $push_id && $pushtype && $pushstatus) {
-				try {
-					// Select DB table
-					$new_session = JMC_CreateSession();
-					mssql_select_db( HANNAM_DB_NAME, $conn_hannam );
-					$query = "SELECT cardNo FROM tbl_app_member WHERE phoneNumber = '$tel' and C2DM_id = '$push_id'";
-					$dbraw = mssql_query($query);
-					$result = mssql_fetch_array($dbraw);
-					if(isset($result['cardNo'])) {
-						mssql_select_db( HANNAM_DB_NAME, $conn_hannam );
-						if($pushtype == "event") {
-							$query = "UPDATE tbl_app_member SET push_event = '$pushstatus' WHERE phoneNumber = '$tel'";
-						} elseif($pushtype == "flyer") {
-							$query = "UPDATE tbl_app_member SET push_flyer = '$pushstatus' WHERE phoneNumber = '$tel'";
-						} elseif($pushtype == "qna") {
-							$query = "UPDATE tbl_app_member SET push_qna = '$pushstatus' WHERE phoneNumber = '$tel'";
-						}
-						$dbraw = mssql_query($query);
-						$data['process'] = true;
-						$data['message'] = "Updated member data";
 					} else {
 						$data['process'] = false;
 						$data['message'] = "Not found member data";
