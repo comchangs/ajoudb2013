@@ -4,14 +4,119 @@
     android:layout_height="fill_parent">
     <LinearLayout android:id="@+id/menu" android:layout_width="match_parent" android:layout_height="fill_parent"
         android:orientation="vertical" android:background="#ffff0000">
-        <ListView android:id="@+id/list" android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:background="#ff00ff00" android:cacheColorHint="#ff00ff00">
-            </ListView>
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="가입그룹" />
+
+        <ListView
+            android:id="@+id/my_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="#ff00ff00"
+            android:cacheColorHint="#ff00ff00" >
+
+        </ListView>
+
+        <TextView
+            android:id="@+id/TextView01"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="신청봉사활동" />
+
+        <ListView
+            android:id="@+id/my_activity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="#ff00ff00"
+            android:cacheColorHint="#ff00ff00" >
+
+        </ListView>
+
+        <TextView
+            android:id="@+id/TextView02"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="예정일정" />
+
+        <ListView
+            android:id="@+id/my_schedule"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="#ff00ff00"
+            android:cacheColorHint="#ff00ff00" >
+
+        </ListView>
     </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/category"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:background="#ffff0000"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/TextView04"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="카테고리" />
+
+        <ListView
+            android:id="@+id/category_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="#ff00ff00"
+            android:cacheColorHint="#ff00ff00" >
+        </ListView>
+
+        <TextView
+            android:id="@+id/TextView03"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="기준 위치" />
+
+        <ListView
+            android:id="@+id/my_location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="#ff00ff00"
+            android:cacheColorHint="#ff00ff00" >
+        </ListView>
+    </LinearLayout>
+
     <LinearLayout android:id="@+id/app" android:layout_width="match_parent" android:layout_height="fill_parent"
         android:orientation="vertical" android:background="#ffffffff">
-        <Button android:id="@+id/BtnSlide" android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:text="Slide" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right" >
+
+            <Button
+                android:id="@+id/btn_menu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Menu" />
+
+            <Button
+                android:id="@+id/btn_category"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_weight="1"
+                android:text="Category" />
+
+        </LinearLayout>
+
         <com.nhn.android.maps.NMapView 
     android:layout_width="fill_parent" 
     android:layout_height="fill_parent" 
@@ -19,4 +124,5 @@
     android:id="@+id/mapView"/>
         
     </LinearLayout>
+
 </FrameLayout>

@@ -99,12 +99,13 @@ public class NMapViewer extends NMapActivity implements AnimationListener {
 
 	private static boolean USE_XML_LAYOUT = true;
 
+	View category;
 	View menu;
     View app;
     boolean menuOut = false;
     AnimParams animParams = new AnimParams();
 
-    class ClickListener implements OnClickListener {
+    class ClickListenerForMenu implements OnClickListener {
         @Override
         public void onClick(View v) {
             System.out.println("onClick " + new Date());
@@ -118,12 +119,57 @@ public class NMapViewer extends NMapActivity implements AnimationListener {
 
             if (!menuOut) {
                 // anim = AnimationUtils.loadAnimation(context, R.anim.push_right_out_80);
-                anim = new TranslateAnimation(0, left, 0, 0);
+                anim = new TranslateAnimation(-left, 0, 0, 0);
+                category.setVisibility(View.INVISIBLE);
                 menu.setVisibility(View.VISIBLE);
+                
                 animParams.init(left, 0, left + w, h);
             } else {
                 // anim = AnimationUtils.loadAnimation(context, R.anim.push_left_in_80);
                 anim = new TranslateAnimation(0, -left, 0, 0);
+                animParams.init(0, 0, w, h);
+            }
+
+            anim.setDuration(500);
+            anim.setAnimationListener(me);
+            //Tell the animation to stay as it ended (we are going to set the app.layout first than remove this property)
+            anim.setFillAfter(true);
+
+
+            // Only use fillEnabled and fillAfter if we don't call layout ourselves.
+            // We need to do the layout ourselves and not use fillEnabled and fillAfter because when the anim is finished
+            // although the View appears to have moved, it is actually just a drawing effect and the View hasn't moved.
+            // Therefore clicking on the screen where the button appears does not work, but clicking where the View *was* does
+            // work.
+            // anim.setFillEnabled(true);
+            // anim.setFillAfter(true);
+
+            app.startAnimation(anim);
+        }
+    }
+    
+    class ClickListenerForCategory implements OnClickListener {
+        @Override
+        public void onClick(View v) {
+            System.out.println("onClick " + new Date());
+            NMapViewer me = NMapViewer.this;
+            Context context = me;
+            Animation anim;
+
+            int w = app.getMeasuredWidth();
+            int h = app.getMeasuredHeight();
+            int right = (int) (app.getMeasuredWidth() * 0.8);
+
+            if (!menuOut) {
+                // anim = AnimationUtils.loadAnimation(context, R.anim.push_right_out_80);
+                anim = new TranslateAnimation(0, -right, 0, 0);
+                menu.setVisibility(View.INVISIBLE);
+                category.setVisibility(View.VISIBLE);
+                
+                animParams.init(-right, 0, w-right, h);
+            } else {
+                // anim = AnimationUtils.loadAnimation(context, R.anim.push_left_in_80);
+                anim = new TranslateAnimation(-right, 0, 0, 0);
                 animParams.init(0, 0, w, h);
             }
 
@@ -155,15 +201,27 @@ public class NMapViewer extends NMapActivity implements AnimationListener {
 			mMapView = (NMapView)findViewById(R.id.mapView);
 			
 			 menu = findViewById(R.id.menu);
+			 category = findViewById(R.id.category);
 		     app = findViewById(R.id.app);
 		     
 		     ViewUtils.printView("menu", menu);
 		     ViewUtils.printView("app", app);
+		     ViewUtils.printView("category", app);
 
-		     ListView listView = (ListView) menu.findViewById(R.id.list);
-		     ViewUtils.initListView(this, listView, "Item ", 30, android.R.layout.simple_list_item_1);
+		     ListView my_group = (ListView) menu.findViewById(R.id.my_group);
+		     ViewUtils.initListView(this, my_group, "Item ", 3, android.R.layout.simple_list_item_1);
+		     ListView my_activity = (ListView) menu.findViewById(R.id.my_activity);
+		     ViewUtils.initListView(this, my_activity, "Item ", 2, android.R.layout.simple_list_item_1);
+		     ListView my_schedule = (ListView) menu.findViewById(R.id.my_schedule);
+		     ViewUtils.initListView(this, my_schedule, "Item ", 2, android.R.layout.simple_list_item_1);
+		     
+		     ListView category_list = (ListView) category.findViewById(R.id.category_list);
+		     ViewUtils.initListView(this, category_list, "Item ", 7, android.R.layout.simple_list_item_1);
+		     ListView my_location = (ListView) category.findViewById(R.id.my_location);
+		     ViewUtils.initListView(this, my_location, "Item ", 2, android.R.layout.simple_list_item_1);
 
-		     app.findViewById(R.id.BtnSlide).setOnClickListener(new ClickListener());
+		     app.findViewById(R.id.btn_menu).setOnClickListener(new ClickListenerForMenu());
+		     app.findViewById(R.id.btn_category).setOnClickListener(new ClickListenerForCategory());
 		} else {
 			// create map view
 			mMapView = new NMapView(this);
