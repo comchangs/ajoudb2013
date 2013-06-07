@@ -9,5 +9,6 @@
     <string name="hello_world">Hello world!</string>
     <string name="hello">Hello World, NMapViewer!</string>
     <string name="str_done">완료</string>
+    <string name="title_activity_blank">BlankActivity</string>
 
 </resources>

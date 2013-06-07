@@ -711,8 +711,9 @@ public class NMapViewer extends NMapActivity implements AnimationListener {
 			}
 
 			// [[TEMP]] handle a click event of the callout
-			Toast.makeText(NMapViewer.this, "onCalloutClick: " + item.getTitle(), Toast.LENGTH_LONG).show();
-			
+			//Toast.makeText(NMapViewer.this, "onCalloutClick: " + item.getTitle(), Toast.LENGTH_LONG).show();
+			Intent intent = new Intent(NMapViewer.this, BlankActivity.class);
+			startActivity(intent);
 		}
 
 		@Override
