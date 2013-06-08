@@ -9,12 +9,12 @@
 	include_once("./include_setup.php");
 	
 	// Input variable
-	$member_username = JMC_GetInput("member_username", METHOD);
+	$member_username = JMC_GetInput("username", METHOD);
 	$session = JMC_GetInput("session", METHOD);
 	$mode = JMC_GetInput("mode", METHOD);
-	$location_id = JMC_GetInput("location_id", METHOD);
-	$register_status = JMC_GetInput("register_status", METHOD);
-	$register_id = JMC_GetInput("register_id", METHOD);
+	$location_id = JMC_GetInput("locationid", METHOD);
+	$register_status = JMC_GetInput("status", METHOD);
+	$register_id = JMC_GetInput("registerid", METHOD);
 	
 	// Check variable
 	if($session && $member_username) {
@@ -22,7 +22,7 @@
 			// Select DB table for session ID
 			$query = "SELECT member_id, session_id, member_username FROM member WHERE member_username = '$member_username'";
 			$dbraw = mysqli_query($conn, $query);
-			$result = mysqli_fetch_array($dbraw);
+			$result = mysqli_fetch_array($dbraw, MYSQLI_ASSOC);
 			if(DEBUG) $data['session'] = $result['session_id'];
 						
 			// Authorize session ID
@@ -40,12 +40,12 @@
 					case "list": {
 						$query2 = "select count(*) as row from register, location, location_category where register.location_id = location.location_id and location_category.location_category_id = location.location_category_id and member_id = ".$member_id;
 						$dbraw2 = mysqli_query($conn, $query2);
-						$result2 = mysqli_fetch_array($dbraw2);
+						$result2 = mysqli_fetch_array($dbraw2, MYSQLI_ASSOC);
 						if($result2['row'] > 0) {
 							$i = 0;
 							$query3 = "select * from register, location, location_category where register.location_id = location.location_id and location_category.location_category_id = location.location_category_id and member_id = ".$member_id." order by register_regdate desc";
 							$dbraw3 = mysqli_query($conn, $query3);
-							while($result3 = mysqli_fetch_array($dbraw3)) {
+							while($result3 = mysqli_fetch_array($dbraw3, MYSQLI_ASSOC)) {
 								unset($sub_data);
 								
 								$sub_data['register_id'] = $result3['register_id'];
@@ -66,7 +66,7 @@
 					}
 
 					case "apply": {
-						if($location_id && $member_id) {
+						if($location_id) {
 							// Select DB table for event data
 							$query = "INSERT INTO register (register_regdate, location_id, member_id) VALUES ('$today', '$location_id', '$member_id')";
 							$dbraw = mysqli_query($conn, $query);

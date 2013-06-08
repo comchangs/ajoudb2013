@@ -13,7 +13,7 @@
 	define("APP_PHPMODULE_PATH","./ajoudb");
 	
 	// Define Method and Debug mode
-	define("METHOD", "GET");
+	define("METHOD", "POST");
 	define("DEBUG", true);
 	
     // Set timezone

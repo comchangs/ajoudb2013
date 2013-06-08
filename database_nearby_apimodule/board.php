@@ -23,7 +23,7 @@
 			// Select DB table for session ID
 			$query = "SELECT member_id, session_id, member_username FROM member WHERE member_username = '$member_username'";
 			$dbraw = mysqli_query($conn,$query);
-			$result = mysqli_fetch_array($dbraw);
+			$result = mysqli_fetch_array($dbraw, MYSQLI_ASSOC);
 			if(DEBUG) $data['session'] = $result['session_id'];
 						
 			// Authorize session ID
@@ -42,7 +42,7 @@
 						if($board_id) {
 							$query2 = "select count(*) as row from document where board_id = ".$board_id;
 							$dbraw2 = mysqli_query($conn,$query2);
-							$result2 = mysqli_fetch_array($dbraw2);
+							$result2 = mysqli_fetch_array($dbraw2, MYSQLI_ASSOC);
 							if($result2['row'] > 0) {
 								$i = 0;
 								$query3 = "select * from document where board_id = ".$board_id." order by regdate desc";
@@ -75,7 +75,7 @@
 						if($document_id) {
 							$query = "select * from document where document_id = '$document_id'";
 							$dbraw = mysqli_query($conn, $query);
-							$result = mysqli_fetch_array($dbraw);
+							$result = mysqli_fetch_array($dbraw, MYSQLI_ASSOC);
 							$data['document_id'] = $result3['qna_id'];
 							$data['document_regdate'] = $result3['regDate'];
 							$data['document_moddate'] = $result3['answerDate'];

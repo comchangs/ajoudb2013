@@ -31,7 +31,7 @@
 					$query = "select (*) 
 					from schedule where location_category_id = '$location_category_id' order by distance DESC LIMIT $first , $limit";
 					$dbraw = mysqli_query($conn, $query);
-					$result = mysqli_fetch_array($dbraw);
+					$result = mysqli_fetch_array($dbraw, MYSQLI_ASSOC);
 					if($result['row'] > 0) {
 						$i = 0;
 						$query2 = "select location_id, location_name, member_id, location_latitude, location_longitude, 
@@ -39,7 +39,7 @@
 						+ COS(RADIANS($location_latitude)) * COS(RADIANS(ABS(latitude))) * POWER(SIN(RADIANS($location_longitude – longitude)), 2))), 1 ) AS distance 
 						from schedule where location_category_id = '$location_category_id' order by distance DESC LIMIT $first , $limit";
 						$dbraw2 = mysqli_query($conn, $query2);
-						while($result2 = mysqli_fetch_array($dbraw2)) {
+						while($result2 = mysqli_fetch_array($dbraw2, MYSQLI_ASSOC)) {
 							unset($sub_data);
 							$sub_data['location_id'] = $result2['location_id'];
 							$sub_data['location_name'] = $result2['location_name'];
@@ -65,7 +65,7 @@
 						// Select DB table for session ID
 						$query = "SELECT member_id, session_id, member_username FROM member WHERE member_username = '$member_username'";
 						$dbraw = mysqli_query($conn, $query);
-						$result = mysqli_fetch_array($dbraw);
+						$result = mysqli_fetch_array($dbraw, MYSQLI_ASSOC);
 						if(DEBUG) $data['session'] = $result['session_id'];
 						
 						// Authorize session ID
@@ -93,7 +93,7 @@
 						// Select DB table for session ID
 						$query = "SELECT member_id, session_id, member_username FROM member WHERE member_username = '$member_username'";
 						$dbraw = mysqli_query($conn, $query);
-						$result = mysqli_fetch_array($dbraw);
+						$result = mysqli_fetch_array($dbraw, MYSQLI_ASSOC);
 						if(DEBUG) $data['session'] = $result['session_id'];
 				
 						// Authorize session ID
