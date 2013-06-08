@@ -39,7 +39,7 @@
             android:windowSoftInputMode="adjustResize|stateVisible" >
         </activity>
         <activity
-            android:name="ajou.database.nearby.NMapViewer"
+            android:name="ajou.database.nearby.Main"
             android:configChanges="keyboardHidden|orientation" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -50,7 +50,7 @@
         <activity android:name="ajou.database.nearby.SecondActivity" >
         </activity>
         <activity
-            android:name="ajou.database.nearby.BlankActivity"
+            android:name="ajou.database.nearby.Register"
             android:label="@string/title_activity_blank" >
         </activity>
     </application>
