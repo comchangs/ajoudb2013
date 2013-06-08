@@ -116,22 +116,22 @@ public class NMapViewer extends NMapActivity implements AnimationListener {
 
             int w = app.getMeasuredWidth();
             int h = app.getMeasuredHeight();
-            int left = (int) (app.getMeasuredWidth() * 0.8);
+            int X = (int) (app.getMeasuredWidth() * 0.8);
 
             if (!menuOut) {
                 // anim = AnimationUtils.loadAnimation(context, R.anim.push_right_out_80);
-                anim = new TranslateAnimation(-left, 0, 0, 0);
+                anim = new TranslateAnimation(0, X, 0, 0);
                 category.setVisibility(View.INVISIBLE);
                 menu.setVisibility(View.VISIBLE);
                 
-                animParams.init(left, 0, left + w, h);
+                animParams.init(X, 0, X + w, h);
             } else {
                 // anim = AnimationUtils.loadAnimation(context, R.anim.push_left_in_80);
-                anim = new TranslateAnimation(0, -left, 0, 0);
+                anim = new TranslateAnimation(0, -X, 0, 0);
                 animParams.init(0, 0, w, h);
             }
 
-            anim.setDuration(500);
+            anim.setDuration(1000);
             anim.setAnimationListener(me);
             //Tell the animation to stay as it ended (we are going to set the app.layout first than remove this property)
             anim.setFillAfter(true);
@@ -159,22 +159,22 @@ public class NMapViewer extends NMapActivity implements AnimationListener {
 
             int w = app.getMeasuredWidth();
             int h = app.getMeasuredHeight();
-            int right = (int) (app.getMeasuredWidth() * 0.8);
+            int X = (int) (app.getMeasuredWidth() * 0.8);
 
             if (!menuOut) {
                 // anim = AnimationUtils.loadAnimation(context, R.anim.push_right_out_80);
-                anim = new TranslateAnimation(0, -right, 0, 0);
+                anim = new TranslateAnimation(0, -X, 0, 0);
                 menu.setVisibility(View.INVISIBLE);
                 category.setVisibility(View.VISIBLE);
                 
-                animParams.init(-right, 0, w-right, h);
+                animParams.init(-X, 0, w-X, h);
             } else {
                 // anim = AnimationUtils.loadAnimation(context, R.anim.push_left_in_80);
-                anim = new TranslateAnimation(-right, 0, 0, 0);
+                anim = new TranslateAnimation(0, X, 0, 0);
                 animParams.init(0, 0, w, h);
             }
 
-            anim.setDuration(500);
+            anim.setDuration(1000);
             anim.setAnimationListener(me);
             //Tell the animation to stay as it ended (we are going to set the app.layout first than remove this property)
             anim.setFillAfter(true);
