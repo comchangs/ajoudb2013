@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- Debug -->
+    <string name="debug">true</string>
+    <string name="log_tag">[ NearBy ]</string>
+    
+    <!-- common -->
+    <string name="connection_error">connection_error</string>
+
+  
+    <!-- temp -->
     <string name="app_name">database_nearby</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
