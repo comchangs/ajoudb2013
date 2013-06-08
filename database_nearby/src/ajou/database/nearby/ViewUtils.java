@@ -47,7 +47,7 @@ public class ViewUtils {
     }
 
     public static void printView(String msg, View v) {
-        System.out.println(msg + "=" + v);
+    	System.out.println(msg + "=" + v);
         if (null == v) {
             return;
         }
