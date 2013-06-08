@@ -7,5 +7,5 @@
 	 */
 
 	// Close mysql connection
-	mysqli_close(); 
+	mysqli_close($conn); 
 ?>

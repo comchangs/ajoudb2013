@@ -23,7 +23,7 @@ if($session && $member_username) {
 		// Select DB table for session ID
 		$query = "SELECT member_id, session_id, member_username FROM member WHERE member_username = '$member_username'";
 		$dbraw = mysqli_query($conn, $query);
-		$result = mysqli_fetch_array($dbraw);
+		$result = mysqli_fetch_array($dbraw, MYSQLI_ASSOC);
 		if(DEBUG) $data['session'] = $result['session_id'];
 
 		// Authorize session ID
@@ -42,12 +42,12 @@ if($session && $member_username) {
 					if($member_id) {
 						$query2 = "select count(*) as row from user_location where member_id = ".$member_id;
 						$dbraw2 = mysqli_query($conn, $query2);
-						$result2 = mysqli_fetch_array($dbraw2);
+						$result2 = mysqli_fetch_array($dbraw2, MYSQLI_ASSOC);
 						if($result2['row'] > 0) {
 							$i = 0;
 							$query3 = "select * from user_location where member_id = ".$member_id." order by user_location_regdate desc";
 							$dbraw3 = mysqli_query($conn, $query3);
-							while($result3 = mysqli_fetch_array($dbraw3)) {
+							while($result3 = mysqli_fetch_array($dbraw3, MYSQLI_ASSOC)) {
 								unset($sub_data);
 								$sub_data['user_location_id'] = $result3['user_location_id'];
 								$sub_data['user_location_type'] = $result3['user_location_type'];

@@ -9,16 +9,15 @@
 	include_once("./include_setup.php");
 	
 	// Input variable
-	$mode = JMC_GetInput("mode", METHOD);
-	$push_id = JMC_GetInput("push_id", METHOD);
-	$tel = JMC_GetInput("tel", METHOD);
-	$session = JMC_GetInput("session", METHOD);
-	$username = JMC_GetInput("username", METHOD);
-	$password = JMC_GetInput("password", METHOD);
-	$type = JMC_GetInput("type", METHOD);
-	$phonetype = JMC_GetInput("phonetype", METHOD);
-	$pushtype = JMC_GetInput("pushtype", METHOD);
-	
+	echo $mode = JMC_GetInput("mode", METHOD);
+	echo $push_id = JMC_GetInput("push_id", METHOD);
+	echo $tel = JMC_GetInput("tel", METHOD);
+	echo $session = JMC_GetInput("session", METHOD);
+	echo $username = JMC_GetInput("username", METHOD);
+	echo $password = JMC_GetInput("password", METHOD);
+	echo $type = JMC_GetInput("type", METHOD);
+	echo $phonetype = JMC_GetInput("phonetype", METHOD);
+
 	// Select mode
 	switch($mode) {
 		default: {
@@ -34,7 +33,7 @@
 					$new_session = JMC_CreateSession();
 					$query = "SELECT member_phone_type, member_push_id, session_id FROM member WHERE username = '$username'";
 					$dbraw = mysqli_query($conn, $query);
-					$result = mysqli_fetch_array($dbraw);
+					$result = mysqli_fetch_array($dbraw, MYSQLI_ASSOC);
 						
 					if($result['member_push_id'] == $push_id) {
 						$data['process'] = true;
@@ -47,7 +46,7 @@
 					}
 					$query = "SELECT session_id FROM member WHERE member_username = '$username'";
 					$dbraw = mysqli_query($conn, $query);
-					$result = mysqli_fetch_array($dbraw);
+					$result = mysqli_fetch_array($dbraw, MYSQLI_ASSOC);
 					$data['session'] = $result['session_id'];
 		
 				} catch(Exception $e) {
@@ -68,7 +67,7 @@
 					$new_session = JMC_CreateSession();
 					$query = "SELECT username FROM member WHERE username = '$username'";
 					$dbraw = mysqli_query($conn, $query);
-					$result = mysqli_fetch_array($dbraw);
+					$result = mysqli_fetch_array($dbraw, MYSQLI_ASSOC);
 					
 					if($result['username'] != $username) {
 						$query = "INSERT INTO member (member_tel_number, member_push_id, member_regDate, member_modDate, session_id, member_phone_type) VALUES ('$tel', '$push_id', '$today', '$today', '$new_session', $phonetype)";
@@ -76,7 +75,7 @@
 						
 						$query = "SELECT session_id FROM member WHERE member_username = '$username'";
 						$dbraw = mysqli_query($conn, $query);
-						$result = mysqli_fetch_array($dbraw);
+						$result = mysqli_fetch_array($dbraw, MYSQLI_ASSOC);
 						
 						$data['process'] = true;
 						$data['message'] = "User Inserted";
@@ -130,22 +129,21 @@
 			break;
 		}
 		case "login": {
-
 			// Check variable
 			if($username && $password) {
 				try {
 					// Select DB table for authorize session ID and telephone number
 					$new_session = JMC_CreateSession();
-					$query = "SELECT member_username FROM member WHERE member_username = '$username' and member_password = '$password'";
-					$dbraw = mtsqli_query($conn, $query);
-					$result = mysqli_fetch_array($dbraw);
+					$query = "SELECT member_username FROM member WHERE member_username =  '$username' AND member_userpassword =  '$password'";
+					$dbraw = mysqli_query($conn, $query);
+					$result = mysqli_fetch_array($dbraw, MYSQLI_ASSOC);
 					if(isset($result['member_username'])) {
 						$query = "UPDATE member SET session_id = '$new_session' WHERE member_username = '$username'";
 						$dbraw = mysqli_query($conn, $query);
 						sleep(1); //DB 업데이트 되는 시간
 						$query = "SELECT session_id, member_type FROM member WHERE member_username = '$username'";
 						$dbraw = mysqli_query($conn, $query);
-						$result = mysqli_fetch_array($dbraw);
+						$result = mysqli_fetch_array($dbraw, MYSQLI_ASSOC);
 						if($new_session == $result['session_id']) {
 							$data['session'] = $result['session_id'];
 							$data['type'] = $result['member_type'];

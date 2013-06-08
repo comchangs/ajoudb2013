@@ -15,5 +15,13 @@
 	define("DB_NAME", "ajoudb");
 	
 	// Generate connection variable
-	$conn = mysqli_connect(DB_SERVER, DB_USERID, PASSWORD, DB_NAME) or die("Database connection error.");
+	$conn = mysqli_connect(DB_SERVER, DB_USERID, PASSWORD, DB_NAME);
+	
+	/* check connection */
+	if (mysqli_connect_errno()) {
+		printf("Connect failed: %s\n", mysqli_connect_error());
+		exit();
+	}
+	
+	
 ?>
