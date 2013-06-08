@@ -15,5 +15,5 @@
 	define("DB_NAME", "ajoudb");
 	
 	// Generate connection variable
-	$conn = mssql_connect(DB_SERVER, DB_USERID, ASSWORD) or die("Database connection error.");
+	$conn = mysqli_connect(DB_SERVER, DB_USERID, PASSWORD, DB_NAME) or die("Database connection error.");
 ?>

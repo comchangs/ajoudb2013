@@ -6,6 +6,6 @@
 	 * @since Create: 2013. 06. 01 / Update: 2013. 06. 01
 	 */
 
-	// Close mssql connection
-	mssql_close($conn); 
+	// Close mysql connection
+	mysqli_close(); 
 ?>

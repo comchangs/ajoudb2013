@@ -3,7 +3,7 @@
 	 * Set environment
 	 * 
 	 * @author Jeong, Munchang
-	 * @since  Create: 2012. 06. 30 / Update: 2012. 10. 05
+	 * @since  Create: 2013. 06. 01 / Update: 2013. 06. 05
 	 */
 
 	defined('_APP_PHPMODULE') or die('Access Error.');
@@ -13,7 +13,7 @@
 	define("APP_PHPMODULE_PATH","./ajoudb");
 	
 	// Define Method and Debug mode
-	define("METHOD", "POST");
+	define("METHOD", "GET");
 	define("DEBUG", true);
 	
     // Set timezone

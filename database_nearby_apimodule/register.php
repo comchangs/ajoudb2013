@@ -20,10 +20,9 @@
 	if($session && $member_username) {
 		try {
 			// Select DB table for session ID
-			mssql_select_db(DB_NAME, $conn);
 			$query = "SELECT member_id, session_id, member_username FROM member WHERE member_username = '$member_username'";
-			$dbraw = mssql_query($query);
-			$result = mssql_fetch_array($dbraw);
+			$dbraw = mysqli_query($conn, $query);
+			$result = mysqli_fetch_array($dbraw);
 			if(DEBUG) $data['session'] = $result['session_id'];
 						
 			// Authorize session ID
@@ -39,16 +38,14 @@
 						break;
 					}
 					case "list": {
-						mssql_select_db(DB_NAME, $conn);
 						$query2 = "select count(*) as row from register, location, location_category where register.location_id = location.location_id and location_category.location_category_id = location.location_category_id and member_id = ".$member_id;
-						$dbraw2 = mssql_query($query2, $conn);
-						$result2 = mssql_fetch_array($dbraw2);
+						$dbraw2 = mysqli_query($conn, $query2);
+						$result2 = mysqli_fetch_array($dbraw2);
 						if($result2['row'] > 0) {
 							$i = 0;
-							mssql_select_db(DB_NAME, $conn);
 							$query3 = "select * from register, location, location_category where register.location_id = location.location_id and location_category.location_category_id = location.location_category_id and member_id = ".$member_id." order by register_regdate desc";
-							$dbraw3 = mssql_query($query3, $conn);
-							while($result3 = mssql_fetch_array($dbraw3)) {
+							$dbraw3 = mysqli_query($conn, $query3);
+							while($result3 = mysqli_fetch_array($dbraw3)) {
 								unset($sub_data);
 								
 								$sub_data['register_id'] = $result3['register_id'];
@@ -71,9 +68,8 @@
 					case "apply": {
 						if($location_id && $member_id) {
 							// Select DB table for event data
-							mssql_select_db(DB_NAME, $conn);
 							$query = "INSERT INTO register (register_regdate, location_id, member_id) VALUES ('$today', '$location_id', '$member_id')";
-							$dbraw = mssql_query($query, $conn);
+							$dbraw = mysqli_query($conn, $query);
 							$data['process'] = true;
 							$data['message'] = "Insert data";
 						} else {
@@ -86,9 +82,8 @@
 					case "update": {
 						if($register_id && $register_status) {
 							// Select DB table for event data
-							mssql_select_db(DB_NAME, $conn);
 							$query = "UPDATE register SET register_status = '$register_status' where register_id=".$register_id;
-							$dbraw = mssql_query($query, $conn);
+							$dbraw = mysqli_query($conn, $query);
 							$data['process'] = true;
 							$data['message'] = "Update data";
 						} else {

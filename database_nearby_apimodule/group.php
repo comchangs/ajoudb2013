@@ -21,10 +21,9 @@
 	if($session && $member_username) {
 		try {
 			// Select DB table for session ID
-			mssql_select_db(DB_NAME, $conn);
 			$query = "SELECT member_id, session_id, member_username FROM member WHERE member_username = '$member_username'";
-			$dbraw = mssql_query($query);
-			$result = mssql_fetch_array($dbraw);
+			$dbraw = mysqli_query($conn, $query);
+			$result = mysqli_fetch_array($dbraw);
 			if(DEBUG) $data['session'] = $result['session_id'];
 						
 			// Authorize session ID
@@ -40,16 +39,14 @@
 						break;
 					}
 					case "total_list": {
-						mssql_select_db(DB_NAME, $conn);
 						$query2 = "select count(*) as row from group";
-						$dbraw2 = mssql_query($query2, $conn);
-						$result2 = mssql_fetch_array($dbraw2);
+						$dbraw2 = mysqli_query($conn, $query2);
+						$result2 = mysqli_fetch_array($dbraw2);
 						if($result2['row'] > 0) {
 							$i = 0;
-							mssql_select_db(DB_NAME, $conn);
 							$query3 = "select * from group order by group_regdate desc";
-							$dbraw3 = mssql_query($query3, $conn);
-							while($result3 = mssql_fetch_array($dbraw3)) {
+							$dbraw3 = mysqli_query($conn, $query3);
+							while($result3 = mysqli_fetch_array($dbraw3)) {
 								unset($sub_data);
 								$sub_data['group_id'] = $result3['group_id'];
 								$sub_data['group_name'] = $result3['group_name'];
@@ -70,16 +67,14 @@
 					}
 					
 					case "member_list": {
-						mssql_select_db(DB_NAME, $conn);
 						$query2 = "select count(*) as row from group, group_member where group_member.group_id = group.group_id and group.group_id = ".$group_id;
-						$dbraw2 = mssql_query($query2, $conn);
-						$result2 = mssql_fetch_array($dbraw2);
+						$dbraw2 = mysqli_query($conn, $query2);
+						$result2 = mysqli_fetch_array($dbraw2);
 						if($result2['row'] > 0) {
 							$i = 0;
-							mssql_select_db(DB_NAME, $conn);
 							$query3 = "select * from group, group_member, member where group_member.group_id = group.group_id and group_member.group_id = ".$group_id;
-							$dbraw3 = mssql_query($query3, $conn);
-							while($result3 = mssql_fetch_array($dbraw3)) {
+							$dbraw3 = mysqli_query($conn, $query3);
+							while($result3 = mysqli_fetch_array($dbraw3)) {
 								unset($sub_data);
 								$sub_data['member_id'] = $result3['member_id'];
 								$sub_data['member_username'] = $result3['group_name'];
@@ -100,16 +95,14 @@
 					}
 					
 					case "my_list": {
-						mssql_select_db(DB_NAME, $conn);
 						$query2 = "select count(*) as row from group, group_member where group_member.group_id = group.group_id and group_member.member_id = ".$member_id;
-						$dbraw2 = mssql_query($query2, $conn);
-						$result2 = mssql_fetch_array($dbraw2);
+						$dbraw2 = mysqli_query($conn, $query2);
+						$result2 = mysqli_fetch_array($dbraw2);
 						if($result2['row'] > 0) {
 							$i = 0;
-							mssql_select_db(DB_NAME, $conn);
 							$query3 = "select * from group, group_member, member where group_member.group_id = group.group_id and group_member.member_id = ".$member_id." order by group_member_joindate desc";
-							$dbraw3 = mssql_query($query3, $conn);
-							while($result3 = mssql_fetch_array($dbraw3)) {
+							$dbraw3 = mysqli_query($conn, $query3);
+							while($result3 = mysqli_fetch_array($dbraw3)) {
 								unset($sub_data);
 								$sub_data['group_id'] = $result3['group_id'];
 								$sub_data['group_name'] = $result3['group_name'];
@@ -132,10 +125,8 @@
 					
 					case "create": {
 						if($subject && $contents) {
-							// Select DB table for event data
-							mssql_select_db(DB_NAME, $conn);
 							$query = "INSERT INTO document (document_regdate, document_moddate, document_title, document_contents, member_id) VALUES ('$today', '$today', '$document_title', '$document_contents', $member_id)";
-							$dbraw = mssql_query($query, $conn);
+							$dbraw = mysqli_query($conn,$query);
 							$data['process'] = true;
 							$data['message'] = "Insert document";
 						} else {
@@ -147,10 +138,8 @@
 					
 					case "join": {
 						if($subject && $contents) {
-							// Select DB table for event data
-							mssql_select_db(DB_NAME, $conn);
 							$query = "INSERT INTO document (document_regdate, document_moddate, document_title, document_contents, member_id) VALUES ('$today', '$today', '$document_title', '$document_contents', $member_id)";
-							$dbraw = mssql_query($query, $conn);
+							$dbraw = mysqli_query($conn,$query);
 							$data['process'] = true;
 							$data['message'] = "Insert document";
 						} else {
@@ -162,10 +151,8 @@
 					
 					case "cancel": {
 						if($subject && $contents) {
-							// Select DB table for event data
-							mssql_select_db(DB_NAME, $conn);
 							$query = "UPDATE document SET document_moddate = '$today', document_title = '$subject', document_contents = '$contents'";
-							$dbraw = mssql_query($query, $conn);
+							$dbraw = mysqli_query($conn,$query);
 							$data['process'] = true;
 							$data['message'] = "Update document";
 						} else {
@@ -177,10 +164,8 @@
 					
 					case "update": {
 						if($subject && $contents) {
-							// Select DB table for event data
-							mssql_select_db(DB_NAME, $conn);
 							$query = "UPDATE document SET document_moddate = '$today', document_title = '$subject', document_contents = '$contents'";
-							$dbraw = mssql_query($query, $conn);
+							$dbraw = mysqli_query($conn,$query);
 							$data['process'] = true;
 							$data['message'] = "Update document";
 						} else {
