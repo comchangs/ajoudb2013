@@ -592,8 +592,9 @@ public class NMapViewer extends NMapActivity implements AnimationListener {
 			//				}
 			//			};
 			//			runnable.run();	
-
-			Toast.makeText(NMapViewer.this, "Your current location is temporarily unavailable.", Toast.LENGTH_LONG).show();
+			
+			//Toast.makeText(NMapViewer.this, "Your current location is temporarily unavailable.", Toast.LENGTH_LONG).show();
+			mMapController.setMapCenter(new NGeoPoint(127.046249, 37.282987), 10);
 		}
 
 		@Override
@@ -713,6 +714,9 @@ public class NMapViewer extends NMapActivity implements AnimationListener {
 			// [[TEMP]] handle a click event of the callout
 			//Toast.makeText(NMapViewer.this, "onCalloutClick: " + item.getTitle(), Toast.LENGTH_LONG).show();
 			Intent intent = new Intent(NMapViewer.this, BlankActivity.class);
+			Bundle b = new Bundle();
+			b.putString("title", item.getTitle());
+			intent.putExtras(b);
 			startActivity(intent);
 		}
 
@@ -839,7 +843,6 @@ public class NMapViewer extends NMapActivity implements AnimationListener {
 		mMapController.setMapCenter(new NGeoPoint(longitudeE6, latitudeE6), level);
 		*/
 		startMyLocation();
-		
 		int markerId = NMapPOIflagType.PIN;
 
 		ArrayList<MarkPoint> mp = new ArrayList<MarkPoint>();
@@ -866,6 +869,7 @@ public class NMapViewer extends NMapActivity implements AnimationListener {
 
 		// set event listener to the overlay
 		poiDataOverlay.setOnStateChangeListener(onPOIdataStateChangeListener);
+		
 	}
 	
 	private class MarkPoint {
