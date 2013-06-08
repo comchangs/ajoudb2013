@@ -21,10 +21,9 @@
 	if($session && $member_username) {
 		try {
 			// Select DB table for session ID
-			mssql_select_db(DB_NAME, $conn);
 			$query = "SELECT member_id, session_id, member_username FROM member WHERE member_username = '$member_username'";
-			$dbraw = mssql_query($query);
-			$result = mssql_fetch_array($dbraw);
+			$dbraw = mysqli_query($conn,$query);
+			$result = mysqli_fetch_array($dbraw);
 			if(DEBUG) $data['session'] = $result['session_id'];
 						
 			// Authorize session ID
@@ -41,16 +40,14 @@
 					}
 					case "list": {
 						if($board_id) {
-							mssql_select_db(DB_NAME, $conn);
 							$query2 = "select count(*) as row from document where board_id = ".$board_id;
-							$dbraw2 = mssql_query($query2, $conn);
-							$result2 = mssql_fetch_array($dbraw2);
+							$dbraw2 = mysqli_query($conn,$query2);
+							$result2 = mysqli_fetch_array($dbraw2);
 							if($result2['row'] > 0) {
 								$i = 0;
-								mssql_select_db(DB_NAME, $conn);
 								$query3 = "select * from document where board_id = ".$board_id." order by regdate desc";
-								$dbraw3 = mssql_query($query3, $conn);
-								while($result3 = mssql_fetch_array($dbraw3)) {
+								$dbraw3 = mysqli_query($conn,$query3);
+								while($result3 = mysqli_fetch_array($dbraw3)) {
 									unset($sub_data);
 									$sub_data['document_id'] = $result3['qna_id'];
 									$sub_data['document_regdate'] = $result3['regDate'];
@@ -76,11 +73,9 @@
 					case "view": {
 						// Check variable
 						if($document_id) {
-							// Select DB table for evnent data
-							mssql_select_db(DB_NAME, $conn);
 							$query = "select * from document where document_id = '$document_id'";
-							$dbraw = mssql_query($query, $conn);
-							$result = mssql_fetch_array($dbraw);
+							$dbraw = mysqli_query($conn, $query);
+							$result = mysqli_fetch_array($dbraw);
 							$data['document_id'] = $result3['qna_id'];
 							$data['document_regdate'] = $result3['regDate'];
 							$data['document_moddate'] = $result3['answerDate'];
@@ -97,10 +92,8 @@
 					}
 					case "write": {
 						if($subject && $contents) {
-							// Select DB table for event data
-							mssql_select_db(DB_NAME, $conn);
 							$query = "INSERT INTO document (document_regdate, document_moddate, document_title, document_contents, member_id) VALUES ('$today', '$today', '$subject', '$contents', $member_id)";
-							$dbraw = mssql_query($query, $conn);
+							$dbraw = mysqli_query($conn, $query);
 							$data['process'] = true;
 							$data['message'] = "Insert document";
 						} else {
@@ -112,10 +105,8 @@
 					
 					case "update": {
 						if($subject && $contents && $document_id) {
-							// Select DB table for event data
-							mssql_select_db(DB_NAME, $conn);
 							$query = "UPDATE document SET document_moddate = '$today', document_title = '$subject', document_contents = '$contents' where document_id = '$document_id'";
-							$dbraw = mssql_query($query, $conn);
+							$dbraw = mysqli_query($conn, $query);
 							$data['process'] = true;
 							$data['message'] = "Update document";
 						} else {
@@ -127,10 +118,8 @@
 					
 					case "delete": {
 						if($document_id) {
-							// Select DB table for event data
-							mssql_select_db(DB_NAME, $conn);
 							$query = "DELETE from document where document_id = '$document_id'";
-							$dbraw = mssql_query($query, $conn);
+							$dbraw = mysqli_query($conn,$query);
 							$data['process'] = true;
 							$data['message'] = "Update document";
 						} else {

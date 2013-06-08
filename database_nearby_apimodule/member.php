@@ -32,25 +32,22 @@
 				try {
 					// Select DB table for push ID
 					$new_session = JMC_CreateSession();
-					mssql_select_db(DB_NAME, $conn);
 					$query = "SELECT member_phone_type, member_push_id, session_id FROM member WHERE username = '$username'";
-					$dbraw = mssql_query($query);
-					$result = mssql_fetch_array($dbraw);
+					$dbraw = mysqli_query($conn, $query);
+					$result = mysqli_fetch_array($dbraw);
 						
 					if($result['member_push_id'] == $push_id) {
 						$data['process'] = true;
 						$data['message'] = "Registered user";
 					} elseif (isset($result['member_push_id']) && $result['member_push_id'] != $push_id) {
-						mssql_select_db(DB_NAME, $conn);
 						$query = "UPDATE member SET member_push_id = '$push_id', session_id = '$new_session', member_phone_type = '$phonetype' WHERE username = '$username'";
-						$dbraw = mssql_query($query);
+						$dbraw = mysqli_query($conn, $query);
 						$data['process'] = true;
 						$data['message'] = "User's push_id updated";
 					}
-					mssql_select_db(DB_NAME, $conn);
 					$query = "SELECT session_id FROM member WHERE member_username = '$username'";
-					$dbraw = mssql_query($query);
-					$result = mssql_fetch_array($dbraw);
+					$dbraw = mysqli_query($conn, $query);
+					$result = mysqli_fetch_array($dbraw);
 					$data['session'] = $result['session_id'];
 		
 				} catch(Exception $e) {
@@ -69,20 +66,17 @@
 				try {
 					// Select DB table for push ID
 					$new_session = JMC_CreateSession();
-					mssql_select_db(DB_NAME, $conn);
 					$query = "SELECT username FROM member WHERE username = '$username'";
-					$dbraw = mssql_query($query);
-					$result = mssql_fetch_array($dbraw);
+					$dbraw = mysqli_query($conn, $query);
+					$result = mysqli_fetch_array($dbraw);
 					
 					if($result['username'] != $username) {
-						mssql_select_db(DB_NAME, $conn);
 						$query = "INSERT INTO member (member_tel_number, member_push_id, member_regDate, member_modDate, session_id, member_phone_type) VALUES ('$tel', '$push_id', '$today', '$today', '$new_session', $phonetype)";
-						$dbraw = mssql_query($query);
+						$dbraw = mysqli_query($conn, $query);
 						
-						mssql_select_db(DB_NAME, $conn);
 						$query = "SELECT session_id FROM member WHERE member_username = '$username'";
-						$dbraw = mssql_query($query);
-						$result = mssql_fetch_array($dbraw);
+						$dbraw = mysqli_query($conn, $query);
+						$result = mysqli_fetch_array($dbraw);
 						
 						$data['process'] = true;
 						$data['message'] = "User Inserted";
@@ -109,17 +103,15 @@
 			if($session && $username && $password && $tel) {
 				try {
 					// Select DB table for session ID
-					mssql_select_db(DB_NAME, $conn);
 					$query = "SELECT session_id FROM member WHERE member_username = '$username'";
-					$dbraw = mssql_query($query);
-					$result = mssql_fetch_array($dbraw);
+					$dbraw = mysqli_query($conn, $query);
+					$result = mysqlu_fetch_array($dbraw);
 					if(DEBUG) $data['session'] = $result['session_id'];
 					
 					// Authorize session ID
 					if($result['session_id'] == $session) {
-						mssql_select_db( DB_NAME, $conn );
 						$query = "UPDATE member SET member_tel_number = '$tel', member_password = '$password' WHERE member_username = '$username'";
-						$dbraw = mssql_query($query);
+						$dbraw = mysqli_query($conn, $query);
 						$data['process'] = true;
 						$data['message'] = "User data updated";
 					}
@@ -144,17 +136,16 @@
 				try {
 					// Select DB table for authorize session ID and telephone number
 					$new_session = JMC_CreateSession();
-					mssql_select_db( DB_NAME, $conn );
 					$query = "SELECT member_username FROM member WHERE member_username = '$username' and member_password = '$password'";
-					$dbraw = mssql_query($query);
-					$result = mssql_fetch_array($dbraw);
+					$dbraw = mtsqli_query($conn, $query);
+					$result = mysqli_fetch_array($dbraw);
 					if(isset($result['member_username'])) {
 						$query = "UPDATE member SET session_id = '$new_session' WHERE member_username = '$username'";
-						$dbraw = mssql_query($query);
+						$dbraw = mysqli_query($conn, $query);
 						sleep(1); //DB 업데이트 되는 시간
 						$query = "SELECT session_id, member_type FROM member WHERE member_username = '$username'";
-						$dbraw = mssql_query($query);
-						$result = mssql_fetch_array($dbraw);
+						$dbraw = mysqli_query($conn, $query);
+						$result = mysqli_fetch_array($dbraw);
 						if($new_session == $result['session_id']) {
 							$data['session'] = $result['session_id'];
 							$data['type'] = $result['member_type'];
