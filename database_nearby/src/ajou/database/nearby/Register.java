@@ -58,7 +58,7 @@ public class Register extends Activity {
 	}
 	
 	/*
-	class GetDataFromServer extends AsyncTask<Integer, Integer, ArrayList<DataClass>> {
+	class GetDataFromServer extends AsyncTask<Integer, Integer, DataClass> {
 
 		@Override
 		protected void onCancelled() {
@@ -75,9 +75,8 @@ public class Register extends Activity {
 		}
 
 		@Override
-		protected ArrayList<DataClass> doInBackground(Integer... params) {
+		protected DataClass doInBackground(Integer... params) {
 
-			ArrayList<DataClass> list = new ArrayList<DataClass>();
 			DataClass data = null;
 
 			try {
@@ -99,43 +98,25 @@ public class Register extends Activity {
 				int size = array.length();
 
 				for (int i = 0; i < size; i++) {
-					data = new DataClass();
-					data.location_id = array.optJSONObject(i).optString("location_id");
-					data.location_name = array.optJSONObject(i).optString("location_name");
-					data.member_id = array.optJSONObject(i).optString("member_id");
-					data.location_latitude = array.optJSONObject(i).optString("location_latitude");
-					data.location_longitude = array.optJSONObject(i).optString("location_longitude");
-					data.distance = array.optJSONObject(i).optString("distance");
-					list.add(data);
-
+					data.location_description = array.optJSONObject(i).optString("location_description");
 				}
 				
 				if (size == 0) {
 					data = null;
-					list = null;
 				}
 
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
 			
-			return list;
+			return data;
 		}
 
 		@Override
-		protected void onPostExecute(final ArrayList<DataClass> list) {
+		protected void onPostExecute(final DataClass data) {
 			
 			if (list != null) {
-				ArrayList<MarkPoint> mp = new ArrayList<MarkPoint>();
-				int markerId = NMapPOIflagType.PIN;
-				
-				for (int i = 0; i < list.size(); i++) {
-					try {
-						mp.add(new MarkPoint(Integer.parseInt(list.get(i).location_id.toString()), list.get(i).location_name.toString(), Double.parseDouble(list.get(i).location_latitude.toString()), Double.parseDouble(list.get(i).location_longitude.toString())));	
-					} catch (Exception e) {
-						;
-					}
-					
+									
 					JMCFunction.setDebugLogI(context,
 							"location_id:" + list.get(i).location_id.toString()
 						+ " location_name:" + list.get(i).location_name.toString()
@@ -146,23 +127,6 @@ public class Register extends Activity {
 						
 				}
 				
-
-				// set POI data
-				NMapPOIdata poiData = new NMapPOIdata(mp.size(), mMapViewerResourceProvider);
-				poiData.beginPOIdata(mp.size());
-				/*
-				poiData.addPOIitem(127.0630205, 37.5091300, "Pizza 777-111", markerId, 0);
-				poiData.addPOIitem(127.061, 37.51, "Pizza 123-456", markerId, 0);
-				 *//*
-				for(MarkPoint a : mp) {
-					poiData.addPOIitem(a.longitude, a.latitude, a.name, markerId, a.id);
-				}
-				poiData.endPOIdata();
-				
-				NMapPOIdataOverlay poiDataOverlay = mOverlayManager.createPOIdataOverlay(poiData, null);
-
-				// set event listener to the overlay
-				poiDataOverlay.setOnStateChangeListener(onPOIdataStateChangeListener);
 			} else {
 				Toast.makeText(context, getString(R.string.connection_error), Toast.LENGTH_LONG).show();
 			}
@@ -172,14 +136,8 @@ public class Register extends Activity {
 	}
 
 	class DataClass {
-		String location_id;
-		String location_name;
-		String member_id;
-		String location_latitude;
-		String location_longitude;
-		String distance;
-	}
-	*/
+		String location_description;
+	}*/
 	
 	class SetDataToServer extends AsyncTask<Integer, Integer, Boolean> {
 
