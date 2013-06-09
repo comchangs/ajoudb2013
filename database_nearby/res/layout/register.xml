@@ -47,6 +47,18 @@
              android:textSize="25px"
             />
 
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="200dp"
+            android:textColor="#33B5E5" 
+             android:textSize="25px"
+            android:text="TextView" />
+
         <Button
             android:id="@+id/button1"
             android:layout_width="wrap_content"
