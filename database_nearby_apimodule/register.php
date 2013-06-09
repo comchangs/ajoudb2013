@@ -81,11 +81,25 @@
 					
 					case "update": {
 						if($register_id && $register_status) {
-							// Select DB table for event data
 							$query = "UPDATE register SET register_status = '$register_status' where register_id=".$register_id;
 							$dbraw = mysqli_query($conn, $query);
 							$data['process'] = true;
 							$data['message'] = "Update data";
+						} else {
+							$data['process'] = false;
+							$data['message'] = "Empty parameter";
+						}
+						break;
+					}
+					
+					case "view": {
+						if($location_id) {
+							$query = "SELECT location_description FROM location WHERE location_id = ".$location_id;
+							$dbraw = mysqli_query($conn, $query);
+							$result = mysqli_fetch_array($dbraw, MYSQLI_ASSOC);
+							$data['location_description'] = $result['location_description'];
+							$data['process'] = true;
+							$data['message'] = "Get data";
 						} else {
 							$data['process'] = false;
 							$data['message'] = "Empty parameter";
